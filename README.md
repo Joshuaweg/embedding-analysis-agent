@@ -17,6 +17,12 @@ This project performs topological data analysis on GPT-2's word embeddings to un
 - Analysis of topological features across different distance thresholds
 - Caching of sampled points for computational efficiency
 
+Example persistence diagram (threshold = 0.08):
+![Persistence Diagram](persistence_diagrams.png)
+- H₀ (blue): Connected components
+- H₁ (orange): Loops/holes
+- H₂ (green): Voids/cavities
+
 ### 3. Graph Analysis Tools
 - Breadth-First Search (BFS) for path finding between tokens
 - Connected component analysis
