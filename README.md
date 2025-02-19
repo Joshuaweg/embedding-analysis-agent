@@ -24,7 +24,7 @@ Example persistence diagram (threshold = 0.08):
 - H₂ (green): Voids/cavities
 
 ### 3. Graph Analysis Tools
-- Breadth-First Search (BFS) for path finding between tokens
+- Breadth-First Search (BFS) for pathfinding between tokens
 - Connected component analysis
 - Distance metrics between tokens in the same component
 - Random walk functionality for exploring semantic neighborhoods
@@ -34,10 +34,10 @@ Example persistence diagram (threshold = 0.08):
   - Node connectivity patterns
 
 ## Key Findings
-- The embedding space shows clear clustering of semantically related tokens
+- The embedding space shows apparent clustering of semantically related tokens
 - Connected components often represent related linguistic concepts
 - Bridge nodes frequently represent tokens with multiple semantic contexts
-- Topological features suggest hierarchical organization of language concepts
+- Topological features suggest a hierarchical organization of language concepts
 
 ## Future Work
 - Implementation of an AI agent for automated graph analysis
@@ -82,8 +82,8 @@ python homology.py
 ```
 This will:
 - Load embeddings
-- Perform maxmin sampling (cached in `maxmin_samples.npz`)
-- Compute persistence diagrams with threshold 0.08
+- Perform maxmin sampling to select 10000 embeddings (cached in `maxmin_samples.npz`) [this is to improve computation]
+- Compute persistence diagrams with radius threshold 0.08 [this will be the what most machines can handle]
 - Save results to `persistence_diagrams.png` and `persistence_results.json`
 
 ### 3. Analyze Graph Structure
