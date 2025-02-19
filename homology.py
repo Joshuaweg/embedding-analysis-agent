@@ -8,6 +8,7 @@ from typing import Tuple, List, Dict
 import json
 import torch
 import gudhi
+import sys
 
 def grid_sampling(points, n_samples):
     """Sample points using a grid-based approach"""
@@ -67,10 +68,8 @@ def maxmin_sampling(points: np.ndarray, n_samples: int = 10000, cache_file: str 
     try:
         print("Looking for cached samples...")
         cached = np.load(cache_file)
-        if (len(cached['indices']) == n_samples and 
-            cached['points_shape'] == points.shape):
-            print("Using cached samples")
-            return points[cached['indices']], cached['indices'].tolist()
+        
+        return points[cached['indices']], cached['indices'].tolist()
     except:
         print("No valid cache found, computing samples...")
     
@@ -147,7 +146,7 @@ def compute_persistence(embeddings: np.ndarray,
             distances,
             maxdim=2,
             distance_matrix=True,
-            thresh=0.08  # Limit the maximum distance to consider
+            thresh=0.07  # Limit the maximum distance to consider
         )
         diagrams = rips_complex['dgms']
         print("Persistent homology computation successful")
@@ -222,6 +221,7 @@ def compute_persistence_gudhi(sampled_embeddings):
 
 if __name__ == "__main__":
     # Example usage
+    cached = np.load("maxmin_samples.npz")
     print("Loading embeddings...")
     tokenizer = GPT2Tokenizer.from_pretrained('gpt2')
     model = GPT2Model.from_pretrained('gpt2')
