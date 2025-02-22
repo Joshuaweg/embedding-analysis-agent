@@ -124,7 +124,8 @@ Provides:
 ## Token Embedding Graph Visualization (mapper_graph_with_weights.html)
 
 Interactive visualization of GPT-2's token embedding space using the Mapper algorithm.
-![MapperVisualization](image.png)  
+![Mapper Visualization](https://github.com/user-attachments/assets/5ce1ded9-4338-46cc-91a3-fe1e221926d6)
+
 ### Graph Statistics
 - **Nodes**: 9,020 nodes representing clusters of semantically related tokens
 - **Edges**: 36,331 connections between related token clusters
