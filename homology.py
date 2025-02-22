@@ -9,7 +9,7 @@ import json
 import torch
 import gudhi
 import sys
-
+rips_complex = None 
 def grid_sampling(points, n_samples):
     """Sample points using a grid-based approach"""
     from sklearn.preprocessing import MinMaxScaler
@@ -146,10 +146,17 @@ def compute_persistence(embeddings: np.ndarray,
             distances,
             maxdim=2,
             distance_matrix=True,
-            thresh=0.07  # Limit the maximum distance to consider
+            thresh=0.07,
+            coeff=2,  # Use Z/2Z coefficients
+            do_cocycles=True  # Add this back to get the cocycle information
         )
+        
         diagrams = rips_complex['dgms']
+        cocycles = rips_complex.get('cocycles', [[], [], []])  # Default empty lists if no cocycles
         print("Persistent homology computation successful")
+        
+        # Add debug print
+        print(f"Number of cocycles found: {[len(c) for c in cocycles]}")
         
         if save_plot:
             print("Saving persistence diagrams...")
@@ -170,6 +177,7 @@ def compute_persistence(embeddings: np.ndarray,
         
         return {
             "diagrams": diagrams,
+            "cocycles": cocycles,
             "sample_indices": sample_indices,
             "statistics": persistence_stats
         }
@@ -185,16 +193,18 @@ def save_persistence_results(results: Dict, filename: str = "persistence_results
     """Save persistence analysis results to JSON file."""
     # Convert numpy arrays and types to JSON-serializable formats
     json_results = {
-        "sample_indices": [int(i) for i in results["sample_indices"]],  # Convert np.int64 to int
+        "sample_indices": [int(i) for i in results["sample_indices"]],
         "statistics": {
             dim: {
-                "num_features": int(stats["num_features"]),  # Convert np.int64 to int
-                "avg_lifetime": float(stats["avg_lifetime"]),  # Convert np.float64 to float
-                "max_lifetime": float(stats["max_lifetime"])   # Convert np.float64 to float
+                "num_features": int(stats["num_features"]),
+                "avg_lifetime": float(stats["avg_lifetime"]),
+                "max_lifetime": float(stats["max_lifetime"])
             }
             for dim, stats in results["statistics"].items()
         },
-        "diagrams": [diagram.tolist() for diagram in results["diagrams"]]
+        "diagrams": [diagram.tolist() for diagram in results["diagrams"]],
+        # Handle cocycles differently since they're already lists
+        "cocycles": results["cocycles"]
     }
     
     with open(filename, 'w') as f:
@@ -219,6 +229,42 @@ def compute_persistence_gudhi(sampled_embeddings):
     
     return diagrams
 
+def extract_feature_indices(diagrams, cocycles, sample_indices, dimension, 
+                          min_birth=0.01, max_birth=0.055,
+                          min_death=0.032, max_death=0.055):
+    """Extract indices of points that form features in the specified range."""
+    diagram = diagrams[dimension]
+    features_cocycles = cocycles[dimension] if dimension < len(cocycles) else []
+    
+    print(f"Processing dimension {dimension}")
+    print(f"Found {len(features_cocycles)} cocycles")
+    
+    # Filter features in the specified range
+    features = []
+    for i, (birth, death) in enumerate(diagram):
+        if death == np.inf:  # Skip infinite death times
+            continue
+        if (min_birth <= birth <= max_birth and 
+            min_death <= death <= max_death):
+            try:
+                # Get the actual point indices for this feature
+                feature_points = features_cocycles[i] if i < len(features_cocycles) else []
+                # Map back to original token indices
+                token_indices = [int(sample_indices[idx]) for idx in feature_points]
+                
+                features.append({
+                    "birth": float(birth),
+                    "death": float(death),
+                    "persistence": float(death - birth),
+                    "feature_index": i,
+                    "token_indices": token_indices
+                })
+            except Exception as e:
+                print(f"Error processing feature {i}: {str(e)}")
+                continue
+    
+    return features
+
 if __name__ == "__main__":
     # Example usage
     cached = np.load("maxmin_samples.npz")
@@ -230,4 +276,61 @@ if __name__ == "__main__":
     print(embeddings.shape)
     results = compute_persistence(embeddings)
     save_persistence_results(results)
-    print("Persistent homology analysis complete!") 
+    print("Persistent homology analysis complete!")
+    
+    print("Extracting topological features...")
+    
+    # Extract features in specific ranges
+    h1_features = extract_feature_indices(
+        diagrams=results['diagrams'],
+        cocycles=results['cocycles'],
+        sample_indices=results['sample_indices'],
+        dimension=1,  # H1 features (loops)
+        min_birth=0.01,
+        max_birth=0.055,
+        min_death=0.032,
+        max_death=0.055
+    )
+    
+    h2_features = extract_feature_indices(
+        diagrams=results['diagrams'],
+        cocycles=results['cocycles'],
+        sample_indices=results['sample_indices'],
+        dimension=2,  # H2 features (voids)
+        min_birth=0.01,
+        max_birth=0.055,
+        min_death=0.032,
+        max_death=0.055
+    )
+    
+    # Save the feature information
+    feature_results = {
+        "h1_features": h1_features,
+        "h2_features": h2_features
+    }
+    
+    with open('persistence_features.json', 'w') as f:
+        json.dump(feature_results, f, indent=2)
+    
+    print(f"\nFound {len(h1_features)} H1 features and {len(h2_features)} H2 features")
+    print("Features saved to persistence_features.json")
+    
+    # Print example features with their tokens
+    print("\nExample H1 features (first 3):")
+    for i, feature in enumerate(h1_features[:3]):
+        print(f"\nFeature {i+1}:")
+        print(f"Birth: {feature['birth']:.3f}")
+        print(f"Death: {feature['death']:.3f}")
+        print(f"Persistence: {feature['persistence']:.3f}")
+        print("Tokens involved:")
+        for idx in feature['token_indices']:
+            print(f"  {idx}: {tokenizer.decode([idx])}")
+
+    print("\nExample H2 features (first 3):")
+    for i, feature in enumerate(h2_features[:3]):
+        print(f"\nFeature {i+1}:")
+        print(f"Birth: {feature['birth']:.3f}")
+        print(f"Death: {feature['death']:.3f}")
+        print(f"Persistence: {feature['persistence']:.3f}")
+        print(f"Feature Index: {feature['feature_index']}")
+        print(f"Token Indices: {', '.join(map(str, feature['token_indices']))}") 

@@ -1,0 +1,1175 @@
+{
+  "nodes": {
+    "cube0_cluster0": {
+      "token_ids": [
+        23149,
+        14652,
+        44245,
+        25529,
+        44061,
+        8108
+      ],
+      "tokens": [
+        "political",
+        " consolid",
+        "Aid",
+        "\u05d9",
+        " insofar",
+        " Community"
+      ],
+      "size": 6,
+      "connected_nodes": [
+        "cube0_cluster1",
+        "cube2_cluster0",
+        "cube3_cluster1",
+        "cube5_cluster1",
+        "cube7_cluster0"
+      ],
+      "position": {
+        "x": -0.2601636286048423,
+        "y": 0.2751697116927527
+      },
+      "cluster_spread": {
+        "std_x": 0.03606425731989702,
+        "std_y": 0.04258930344258013
+      }
+    },
+    "cube0_cluster1": {
+      "token_ids": [
+        20211,
+        37467,
+        6287,
+        34468,
+        40035,
+        14029,
+        16445,
+        15449,
+        27806
+      ],
+      "tokens": [
+        " metabolism",
+        "zsche",
+        " extent",
+        " Walton",
+        "697",
+        "iden",
+        " Brussels",
+        " joins",
+        " fortunes"
+      ],
+      "size": 9,
+      "connected_nodes": [
+        "cube0_cluster0",
+        "cube1_cluster0",
+        "cube5_cluster1",
+        "cube6_cluster0",
+        "cube6_cluster1"
+      ],
+      "position": {
+        "x": -0.18088500713058187,
+        "y": 0.9549187455485821
+      },
+      "cluster_spread": {
+        "std_x": 0.017520839708434623,
+        "std_y": 0.017866867811648514
+      }
+    },
+    "cube1_cluster0": {
+      "token_ids": [
+        1361,
+        8020,
+        48867,
+        42160,
+        48844,
+        47800,
+        14588,
+        24459,
+        21062,
+        16266,
+        49792,
+        18686,
+        41544,
+        31676,
+        15129
+      ],
+      "tokens": [
+        "reen",
+        " hadn",
+        " HDL",
+        " nuances",
+        " Revelations",
+        " immobil",
+        " insulin",
+        " declines",
+        "rr",
+        " affirm",
+        "ansky",
+        " juven",
+        "795",
+        "\u306f",
+        "uting"
+      ],
+      "size": 15,
+      "connected_nodes": [
+        "cube0_cluster1",
+        "cube1_cluster1",
+        "cube4_cluster1"
+      ],
+      "position": {
+        "x": 0.743243109276051,
+        "y": -0.2452260327333482
+      },
+      "cluster_spread": {
+        "std_x": 0.04451229488845307,
+        "std_y": 0.023323190412234227
+      }
+    },
+    "cube1_cluster1": {
+      "token_ids": [
+        22321,
+        31662,
+        21250,
+        12807,
+        23147,
+        29928,
+        18018,
+        3695,
+        43392,
+        39142,
+        15253,
+        14584,
+        38035
+      ],
+      "tokens": [
+        " academics",
+        " hurried",
+        "THER",
+        "san",
+        " pouring",
+        " bailout",
+        " cables",
+        "78",
+        " Kraken",
+        "ThumbnailImage",
+        "etta",
+        " unders",
+        " fructose"
+      ],
+      "size": 13,
+      "connected_nodes": [
+        "cube1_cluster0",
+        "cube2_cluster0",
+        "cube3_cluster0",
+        "cube7_cluster1",
+        "cube9_cluster1"
+      ],
+      "position": {
+        "x": -0.6648542874504104,
+        "y": 0.8969177798375434
+      },
+      "cluster_spread": {
+        "std_x": 0.03902384840039877,
+        "std_y": 0.03466429675083303
+      }
+    },
+    "cube2_cluster0": {
+      "token_ids": [
+        3664,
+        16826,
+        16602,
+        14287,
+        6196,
+        15018,
+        15272
+      ],
+      "tokens": [
+        " sal",
+        " willingness",
+        " analyze",
+        " neighborhoods",
+        " potentially",
+        " protections",
+        " pione"
+      ],
+      "size": 7,
+      "connected_nodes": [
+        "cube0_cluster0",
+        "cube1_cluster1",
+        "cube2_cluster1",
+        "cube6_cluster1"
+      ],
+      "position": {
+        "x": -0.7788700472926644,
+        "y": -0.7444030978600895
+      },
+      "cluster_spread": {
+        "std_x": 0.02445244514017645,
+        "std_y": 0.023842782667447875
+      }
+    },
+    "cube2_cluster1": {
+      "token_ids": [
+        950,
+        10681,
+        11253,
+        31288,
+        11756,
+        34523,
+        43557,
+        49846,
+        48479,
+        36868,
+        47979,
+        10522,
+        48555
+      ],
+      "tokens": [
+        "ollow",
+        " unemployment",
+        "blem",
+        "LM",
+        " respective",
+        "jp",
+        " psychiatry",
+        "Mand",
+        " exorc",
+        "vati",
+        " Investor",
+        " abroad",
+        "729"
+      ],
+      "size": 13,
+      "connected_nodes": [
+        "cube2_cluster0",
+        "cube3_cluster0",
+        "cube4_cluster1",
+        "cube6_cluster0",
+        "cube7_cluster1",
+        "cube9_cluster1"
+      ],
+      "position": {
+        "x": 0.7291851085880192,
+        "y": -0.5163538186377277
+      },
+      "cluster_spread": {
+        "std_x": 0.03425035766987322,
+        "std_y": 0.02471304359442786
+      }
+    },
+    "cube3_cluster0": {
+      "token_ids": [
+        37490,
+        20859,
+        49580,
+        42733,
+        19660,
+        49296,
+        38132,
+        14700,
+        18556,
+        20674,
+        25671,
+        44085,
+        16391,
+        23125,
+        44410,
+        14301
+      ],
+      "tokens": [
+        " Mald",
+        "prisingly",
+        "Bone",
+        " Waves",
+        " probation",
+        "!'\"",
+        " aust",
+        " expressions",
+        " junk",
+        " extremists",
+        " tendencies",
+        "518",
+        " attackers",
+        " warmth",
+        " Junction",
+        " behaviors"
+      ],
+      "size": 16,
+      "connected_nodes": [
+        "cube1_cluster1",
+        "cube2_cluster1",
+        "cube3_cluster1",
+        "cube5_cluster1",
+        "cube9_cluster0"
+      ],
+      "position": {
+        "x": -0.7664489224187203,
+        "y": 0.7235947513675287
+      },
+      "cluster_spread": {
+        "std_x": 0.04692569632323659,
+        "std_y": 0.012357558610049257
+      }
+    },
+    "cube3_cluster1": {
+      "token_ids": [
+        24142,
+        35304,
+        4725,
+        48038,
+        31155
+      ],
+      "tokens": [
+        "wp",
+        " Waste",
+        " UN",
+        "asel",
+        " tumors"
+      ],
+      "size": 5,
+      "connected_nodes": [
+        "cube0_cluster0",
+        "cube3_cluster0",
+        "cube4_cluster0",
+        "cube7_cluster0",
+        "cube9_cluster0"
+      ],
+      "position": {
+        "x": -0.8058265162292111,
+        "y": 0.1836175567918661
+      },
+      "cluster_spread": {
+        "std_x": 0.04142870379703529,
+        "std_y": 0.0218027414985955
+      }
+    },
+    "cube4_cluster0": {
+      "token_ids": [
+        33286,
+        191,
+        8469,
+        26452,
+        14398,
+        29881,
+        5422,
+        45683,
+        38553,
+        928,
+        30485,
+        45295,
+        32417,
+        43546,
+        48150,
+        15138
+      ],
+      "tokens": [
+        "ublished",
+        "\u0003",
+        " crack",
+        "hom",
+        "Euro",
+        "Copy",
+        " mouth",
+        " Notably",
+        "oddy",
+        "olog",
+        " pillars",
+        " contraceptives",
+        "605",
+        " goddamn",
+        " Nost",
+        " Deal"
+      ],
+      "size": 16,
+      "connected_nodes": [
+        "cube3_cluster1",
+        "cube4_cluster1"
+      ],
+      "position": {
+        "x": -0.6433736028417969,
+        "y": 0.42299567556243334
+      },
+      "cluster_spread": {
+        "std_x": 0.03663985607962853,
+        "std_y": 0.03861031449010145
+      }
+    },
+    "cube4_cluster1": {
+      "token_ids": [
+        36092,
+        42376,
+        34991,
+        33710,
+        29911,
+        45186,
+        25621,
+        34146,
+        33918,
+        6529,
+        27949,
+        41393,
+        19713,
+        8178,
+        21772,
+        24100,
+        46572,
+        4581
+      ],
+      "tokens": [
+        "hoff",
+        "othal",
+        "Queue",
+        " federally",
+        " Philippine",
+        "Iowa",
+        "TI",
+        " LT",
+        " json",
+        " acts",
+        " Gly",
+        " dissatisfaction",
+        " aesthetic",
+        " accord",
+        " virgin",
+        "erno",
+        "563",
+        " spending"
+      ],
+      "size": 18,
+      "connected_nodes": [
+        "cube1_cluster0",
+        "cube2_cluster1",
+        "cube4_cluster0",
+        "cube5_cluster0",
+        "cube7_cluster1"
+      ],
+      "position": {
+        "x": 0.1990266160072287,
+        "y": -0.6833203879265763
+      },
+      "cluster_spread": {
+        "std_x": 0.04306058947112797,
+        "std_y": 0.013794940407270109
+      }
+    },
+    "cube5_cluster0": {
+      "token_ids": [
+        16309,
+        49270,
+        21454,
+        6804,
+        32565,
+        3273,
+        16490,
+        16736,
+        31030,
+        3739,
+        20540,
+        9813
+      ],
+      "tokens": [
+        "YS",
+        "coe",
+        "bag",
+        " lob",
+        "Spot",
+        "cember",
+        " Denmark",
+        " rises",
+        " bastard",
+        " income",
+        "idate",
+        " waves"
+      ],
+      "size": 12,
+      "connected_nodes": [
+        "cube4_cluster1",
+        "cube5_cluster1",
+        "cube7_cluster0",
+        "cube9_cluster0"
+      ],
+      "position": {
+        "x": -0.7656164520441069,
+        "y": 0.7515670162663219
+      },
+      "cluster_spread": {
+        "std_x": 0.036296928773735394,
+        "std_y": 0.01770354558457037
+      }
+    },
+    "cube5_cluster1": {
+      "token_ids": [
+        26217,
+        14702,
+        18152,
+        29774,
+        44950,
+        34996,
+        38089,
+        23788,
+        35230,
+        47808,
+        28700
+      ],
+      "tokens": [
+        " casts",
+        " shocking",
+        " Stories",
+        "Senator",
+        " techno",
+        " charismatic",
+        " 560",
+        " neighbours",
+        "Rap",
+        " Dinosaur",
+        " PCB"
+      ],
+      "size": 11,
+      "connected_nodes": [
+        "cube0_cluster0",
+        "cube0_cluster1",
+        "cube3_cluster0",
+        "cube5_cluster0",
+        "cube6_cluster0",
+        "cube8_cluster0",
+        "cube8_cluster1",
+        "cube9_cluster0"
+      ],
+      "position": {
+        "x": -0.31794064160808655,
+        "y": 0.05319971021598113
+      },
+      "cluster_spread": {
+        "std_x": 0.0359197537079548,
+        "std_y": 0.012216825821884898
+      }
+    },
+    "cube6_cluster0": {
+      "token_ids": [
+        15247,
+        41786,
+        21587,
+        25647,
+        22671,
+        1115,
+        17776,
+        41530,
+        17524,
+        34121,
+        25635,
+        23093,
+        47496,
+        14012,
+        39268,
+        9381,
+        29152,
+        16248,
+        4372,
+        20768
+      ],
+      "tokens": [
+        " WWE",
+        " scissors",
+        "ietal",
+        " haul",
+        " crackdown",
+        " three",
+        "again",
+        " Serie",
+        " Trudeau",
+        " Norn",
+        " swinging",
+        " Login",
+        "juries",
+        "tarian",
+        " deadliest",
+        " gif",
+        "pract",
+        " commissioner",
+        "rd",
+        " Initial"
+      ],
+      "size": 20,
+      "connected_nodes": [
+        "cube0_cluster1",
+        "cube2_cluster1",
+        "cube5_cluster1",
+        "cube6_cluster1",
+        "cube8_cluster0",
+        "cube8_cluster1"
+      ],
+      "position": {
+        "x": -0.8259945044432004,
+        "y": 0.8713668964984733
+      },
+      "cluster_spread": {
+        "std_x": 0.04743907768474269,
+        "std_y": 0.012146744565995973
+      }
+    },
+    "cube6_cluster1": {
+      "token_ids": [
+        18086,
+        2398,
+        11200,
+        16093,
+        34802,
+        41301,
+        44413,
+        25492,
+        46891,
+        30834,
+        31321,
+        9026,
+        3167,
+        38710,
+        30408
+      ],
+      "tokens": [
+        " pitcher",
+        "org",
+        " skept",
+        " Lynch",
+        " Santiago",
+        "rified",
+        " Vera",
+        "Ty",
+        " motivating",
+        " coffin",
+        " clarification",
+        " inev",
+        " Dis",
+        " millennia",
+        "shoot"
+      ],
+      "size": 15,
+      "connected_nodes": [
+        "cube0_cluster1",
+        "cube2_cluster0",
+        "cube6_cluster0",
+        "cube7_cluster0"
+      ],
+      "position": {
+        "x": 0.4622129450930905,
+        "y": -0.9351268465408196
+      },
+      "cluster_spread": {
+        "std_x": 0.04891769084169964,
+        "std_y": 0.04102326522968933
+      }
+    },
+    "cube7_cluster0": {
+      "token_ids": [
+        1229,
+        45436,
+        16507,
+        37027,
+        39364,
+        32527,
+        8728,
+        25638,
+        12033,
+        48432,
+        43394,
+        10856,
+        43368,
+        30324,
+        1165,
+        28740
+      ],
+      "tokens": [
+        "uc",
+        " appraisal",
+        " relies",
+        " Signs",
+        " sizeof",
+        "rious",
+        "~~~~",
+        "plain",
+        " Interest",
+        " Moons",
+        " CLSID",
+        " athletes",
+        "Tips",
+        " geop",
+        " too",
+        " calorie"
+      ],
+      "size": 16,
+      "connected_nodes": [
+        "cube0_cluster0",
+        "cube3_cluster1",
+        "cube5_cluster0",
+        "cube6_cluster1",
+        "cube7_cluster1",
+        "cube8_cluster0",
+        "cube9_cluster0"
+      ],
+      "position": {
+        "x": -0.8480720884446922,
+        "y": 0.3157760539419463
+      },
+      "cluster_spread": {
+        "std_x": 0.030191992002855453,
+        "std_y": 0.031052233045076136
+      }
+    },
+    "cube7_cluster1": {
+      "token_ids": [
+        40448,
+        31530,
+        6189,
+        39753,
+        32403,
+        49195,
+        4975,
+        36126,
+        45837,
+        24163,
+        3145,
+        4891,
+        14286,
+        24723,
+        1157,
+        18568,
+        24262,
+        6833
+      ],
+      "tokens": [
+        " Deadpool",
+        " Olson",
+        " obviously",
+        "quickShipAvailable",
+        " embodiments",
+        " Christensen",
+        " reform",
+        " Scarborough",
+        " assures",
+        " contested",
+        "hib",
+        "ache",
+        " Terry",
+        "NR",
+        "11",
+        " hipp",
+        " Luckily",
+        " classic"
+      ],
+      "size": 18,
+      "connected_nodes": [
+        "cube1_cluster1",
+        "cube2_cluster1",
+        "cube4_cluster1",
+        "cube7_cluster0",
+        "cube8_cluster0"
+      ],
+      "position": {
+        "x": 0.38094266615934935,
+        "y": 0.7623303165785251
+      },
+      "cluster_spread": {
+        "std_x": 0.016843433887490055,
+        "std_y": 0.014223175894757176
+      }
+    },
+    "cube8_cluster0": {
+      "token_ids": [
+        49668,
+        48130,
+        27920,
+        14080,
+        34899,
+        18438,
+        41754,
+        2383,
+        34320,
+        11819,
+        27513,
+        40903,
+        27500
+      ],
+      "tokens": [
+        " UNITED",
+        " exhibitions",
+        ")\u2014",
+        " purchasing",
+        " INV",
+        "Expl",
+        " retake",
+        " significant",
+        "Must",
+        " Building",
+        " expands",
+        "illation",
+        " combust"
+      ],
+      "size": 13,
+      "connected_nodes": [
+        "cube5_cluster1",
+        "cube6_cluster0",
+        "cube7_cluster0",
+        "cube7_cluster1",
+        "cube8_cluster1"
+      ],
+      "position": {
+        "x": 0.935124023087168,
+        "y": 0.4019020191305416
+      },
+      "cluster_spread": {
+        "std_x": 0.02786354595749997,
+        "std_y": 0.03455589856148272
+      }
+    },
+    "cube8_cluster1": {
+      "token_ids": [
+        49778,
+        25891,
+        37223,
+        20109,
+        29286,
+        33139,
+        29518,
+        39477,
+        10623,
+        23989,
+        24781,
+        30685
+      ],
+      "tokens": [
+        "\\<",
+        " abruptly",
+        " Tough",
+        " ignorant",
+        " unsett",
+        " Haram",
+        " architects",
+        " Ary",
+        "assador",
+        " optimization",
+        " appell",
+        " enclosure"
+      ],
+      "size": 12,
+      "connected_nodes": [
+        "cube5_cluster1",
+        "cube6_cluster0",
+        "cube8_cluster0",
+        "cube9_cluster0",
+        "cube9_cluster1"
+      ],
+      "position": {
+        "x": -0.14432029972099958,
+        "y": 0.5870790601768647
+      },
+      "cluster_spread": {
+        "std_x": 0.01782948111115133,
+        "std_y": 0.029328447894285105
+      }
+    },
+    "cube9_cluster0": {
+      "token_ids": [
+        36685,
+        37749,
+        18533,
+        47660,
+        35678,
+        38226,
+        14712,
+        11193
+      ],
+      "tokens": [
+        "\ufffd",
+        "atis",
+        " assumes",
+        " Hyder",
+        "destruct",
+        " transformations",
+        " Wire",
+        " lane"
+      ],
+      "size": 8,
+      "connected_nodes": [
+        "cube3_cluster0",
+        "cube3_cluster1",
+        "cube5_cluster0",
+        "cube5_cluster1",
+        "cube7_cluster0",
+        "cube8_cluster1",
+        "cube9_cluster1"
+      ],
+      "position": {
+        "x": 0.8578917028744133,
+        "y": 0.44541763048506855
+      },
+      "cluster_spread": {
+        "std_x": 0.02514974855445622,
+        "std_y": 0.018728280963221322
+      }
+    },
+    "cube9_cluster1": {
+      "token_ids": [
+        13739,
+        10839,
+        7895,
+        26169,
+        34587,
+        23021,
+        13458,
+        34689,
+        17169,
+        42743,
+        40475,
+        39303
+      ],
+      "tokens": [
+        "Active",
+        " voices",
+        " exciting",
+        " Ging",
+        " Gum",
+        "phony",
+        " Manhattan",
+        " Saving",
+        " administered",
+        " DOT",
+        "Considering",
+        " Dunk"
+      ],
+      "size": 12,
+      "connected_nodes": [
+        "cube1_cluster1",
+        "cube2_cluster1",
+        "cube8_cluster1",
+        "cube9_cluster0"
+      ],
+      "position": {
+        "x": 0.47577894169667045,
+        "y": 0.5435207041776209
+      },
+      "cluster_spread": {
+        "std_x": 0.018344457387136512,
+        "std_y": 0.01096675620003838
+      }
+    }
+  },
+  "links": [
+    [
+      "cube0_cluster0",
+      "cube0_cluster1"
+    ],
+    [
+      "cube0_cluster1",
+      "cube1_cluster0"
+    ],
+    [
+      "cube1_cluster0",
+      "cube1_cluster1"
+    ],
+    [
+      "cube1_cluster1",
+      "cube2_cluster0"
+    ],
+    [
+      "cube2_cluster0",
+      "cube2_cluster1"
+    ],
+    [
+      "cube2_cluster1",
+      "cube3_cluster0"
+    ],
+    [
+      "cube3_cluster0",
+      "cube3_cluster1"
+    ],
+    [
+      "cube3_cluster1",
+      "cube4_cluster0"
+    ],
+    [
+      "cube4_cluster0",
+      "cube4_cluster1"
+    ],
+    [
+      "cube4_cluster1",
+      "cube5_cluster0"
+    ],
+    [
+      "cube5_cluster0",
+      "cube5_cluster1"
+    ],
+    [
+      "cube5_cluster1",
+      "cube6_cluster0"
+    ],
+    [
+      "cube6_cluster0",
+      "cube6_cluster1"
+    ],
+    [
+      "cube6_cluster1",
+      "cube7_cluster0"
+    ],
+    [
+      "cube7_cluster0",
+      "cube7_cluster1"
+    ],
+    [
+      "cube7_cluster1",
+      "cube8_cluster0"
+    ],
+    [
+      "cube8_cluster0",
+      "cube8_cluster1"
+    ],
+    [
+      "cube8_cluster1",
+      "cube9_cluster0"
+    ],
+    [
+      "cube9_cluster0",
+      "cube9_cluster1"
+    ],
+    [
+      "cube3_cluster1",
+      "cube9_cluster0"
+    ],
+    [
+      "cube4_cluster1",
+      "cube7_cluster1"
+    ],
+    [
+      "cube3_cluster1",
+      "cube7_cluster0"
+    ],
+    [
+      "cube5_cluster1",
+      "cube8_cluster0"
+    ],
+    [
+      "cube1_cluster1",
+      "cube9_cluster1"
+    ],
+    [
+      "cube6_cluster0",
+      "cube0_cluster1"
+    ],
+    [
+      "cube2_cluster0",
+      "cube6_cluster1"
+    ],
+    [
+      "cube5_cluster1",
+      "cube3_cluster0"
+    ],
+    [
+      "cube5_cluster0",
+      "cube9_cluster0"
+    ],
+    [
+      "cube5_cluster0",
+      "cube7_cluster0"
+    ],
+    [
+      "cube7_cluster0",
+      "cube8_cluster0"
+    ],
+    [
+      "cube6_cluster1",
+      "cube0_cluster1"
+    ],
+    [
+      "cube3_cluster0",
+      "cube9_cluster0"
+    ],
+    [
+      "cube7_cluster0",
+      "cube0_cluster0"
+    ],
+    [
+      "cube8_cluster1",
+      "cube5_cluster1"
+    ],
+    [
+      "cube5_cluster1",
+      "cube0_cluster1"
+    ],
+    [
+      "cube7_cluster1",
+      "cube1_cluster1"
+    ],
+    [
+      "cube0_cluster0",
+      "cube3_cluster1"
+    ],
+    [
+      "cube7_cluster1",
+      "cube2_cluster1"
+    ],
+    [
+      "cube6_cluster0",
+      "cube2_cluster1"
+    ],
+    [
+      "cube0_cluster0",
+      "cube2_cluster0"
+    ],
+    [
+      "cube1_cluster1",
+      "cube3_cluster0"
+    ],
+    [
+      "cube4_cluster1",
+      "cube1_cluster0"
+    ],
+    [
+      "cube8_cluster1",
+      "cube6_cluster0"
+    ],
+    [
+      "cube0_cluster0",
+      "cube5_cluster1"
+    ],
+    [
+      "cube9_cluster0",
+      "cube7_cluster0"
+    ],
+    [
+      "cube9_cluster1",
+      "cube8_cluster1"
+    ],
+    [
+      "cube2_cluster1",
+      "cube9_cluster1"
+    ],
+    [
+      "cube9_cluster0",
+      "cube5_cluster1"
+    ],
+    [
+      "cube2_cluster1",
+      "cube4_cluster1"
+    ],
+    [
+      "cube6_cluster0",
+      "cube8_cluster0"
+    ]
+  ],
+  "metadata": {
+    "total_nodes": 20,
+    "total_edges": 50,
+    "projection_bounds": {
+      "x": [
+        -1.0,
+        1.0
+      ],
+      "y": [
+        -1.0,
+        1.0
+      ]
+    },
+    "mapper_params": {
+      "n_cubes": 25,
+      "overlap": 0.2,
+      "clusters_per_bin": 2
+    }
+  }
+}

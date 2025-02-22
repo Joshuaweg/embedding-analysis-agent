@@ -7,6 +7,7 @@ from random import choice, random
 import networkx as nx
 from collections import Counter
 import numpy as np
+import heapq
 
 @dataclass
 class Node:
@@ -511,6 +512,128 @@ class TokenGraph:
             return nx.eigenvector_centrality(G)
         except:
             return {}
+
+    def detect_communities(self):
+        """Detect communities in the graph using Louvain method"""
+        G = nx.Graph()
+        for node_id, node in self.nodes.items():
+            G.add_node(node_id)
+            for neighbor in node.connected_nodes:
+                G.add_edge(node_id, neighbor)
+        
+        communities = nx.community.louvain_communities(G)
+        return {
+            "communities": communities,
+            "modularity": nx.community.modularity(G, communities)
+        }
+
+    def compute_node_centrality(self):
+        """Compute various centrality metrics for nodes"""
+        G = nx.Graph()
+        for node_id, node in self.nodes.items():
+            G.add_node(node_id)
+            for neighbor in node.connected_nodes:
+                G.add_edge(node_id, neighbor)
+        
+        return {
+            "degree": nx.degree_centrality(G),
+            "betweenness": nx.betweenness_centrality(G),
+            "eigenvector": nx.eigenvector_centrality(G),
+            "closeness": nx.closeness_centrality(G)
+        }
+
+    def extract_subgraph(self, node_ids):
+        """Extract subgraph containing specified nodes and their neighbors"""
+        subgraph_nodes = set(node_ids)
+        for node_id in node_ids:
+            node = self.nodes[node_id]
+            subgraph_nodes.update(node.connected_nodes)
+        
+        return {node_id: self.nodes[node_id] for node_id in subgraph_nodes}
+
+    def analyze_token_patterns(self):
+        """Analyze patterns in token distributions across nodes"""
+        token_counts = {}
+        token_cooccurrence = {}
+        
+        for node in self.nodes.values():
+            # Count token frequencies
+            for token in node.tokens:
+                token_counts[token] = token_counts.get(token, 0) + 1
+                
+            # Analyze token co-occurrence
+            for t1 in node.tokens:
+                for t2 in node.tokens:
+                    if t1 < t2:
+                        pair = (t1, t2)
+                        token_cooccurrence[pair] = token_cooccurrence.get(pair, 0) + 1
+        
+        return {
+            "token_frequencies": token_counts,
+            "common_pairs": sorted(token_cooccurrence.items(), 
+                                 key=lambda x: x[1], reverse=True)[:20]
+        }
+
+    def analyze_paths(self, start_node_id, max_length=5):
+        """Analyze all paths starting from a node up to max_length"""
+        paths = []
+        visited = {start_node_id}
+        
+        def dfs(current_id, path, length):
+            if length >= max_length:
+                return
+            node = self.nodes[current_id]
+            for neighbor in node.connected_nodes:
+                if neighbor not in visited:
+                    visited.add(neighbor)
+                    new_path = path + [neighbor]
+                    paths.append(new_path)
+                    dfs(neighbor, new_path, length + 1)
+                    visited.remove(neighbor)
+        
+        dfs(start_node_id, [start_node_id], 0)
+        return paths
+
+    def compute_graph_statistics(self):
+        """Compute various statistical measures of the graph"""
+        G = nx.Graph()
+        for node_id, node in self.nodes.items():
+            G.add_node(node_id)
+            for neighbor in node.connected_nodes:
+                G.add_edge(node_id, neighbor)
+        
+        return {
+            "avg_degree": sum(len(n.connected_nodes) for n in self.nodes.values()) / len(self.nodes),
+            "density": nx.density(G),
+            "clustering_coefficient": nx.average_clustering(G),
+            "diameter": nx.diameter(G),
+            "avg_shortest_path": nx.average_shortest_path_length(G)
+        }
+
+    def weighted_bfs_path(self, start_node_id, end_node_id):
+        """Find path optimizing for edge weights"""
+        if start_node_id not in self.nodes or end_node_id not in self.nodes:
+            return []
+        
+        # Use priority queue for weighted search
+        queue = [(0, start_node_id, [start_node_id])]
+        visited = {start_node_id}
+        
+        while queue:
+            total_weight, current_id, path = heapq.heappop(queue)
+            
+            if current_id == end_node_id:
+                return path
+            
+            for neighbor in self.nodes[current_id].connected_nodes:
+                if neighbor not in visited:
+                    visited.add(neighbor)
+                    edge_weight = self.edge_weights.get((current_id, neighbor), 
+                                                      self.edge_weights.get((neighbor, current_id)))
+                    new_path = path + [neighbor]
+                    heapq.heappush(queue, (total_weight + 1/edge_weight, neighbor, new_path))
+        
+        return []
 
 # Example usage:
 if __name__ == "__main__":

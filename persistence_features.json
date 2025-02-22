@@ -1,0 +1,489 @@
+{
+  "h1_features": [
+    {
+      "birth": 0.04508575424551964,
+      "death": 0.0475332997739315,
+      "persistence": 0.0024475455284118652,
+      "feature_index": 1,
+      "token_indices": []
+    },
+    {
+      "birth": 0.03982379660010338,
+      "death": 0.04759400710463524,
+      "persistence": 0.00777021050453186,
+      "feature_index": 3,
+      "token_indices": []
+    },
+    {
+      "birth": 0.038510147482156754,
+      "death": 0.0412696972489357,
+      "persistence": 0.002759549766778946,
+      "feature_index": 4,
+      "token_indices": []
+    },
+    {
+      "birth": 0.033283352851867676,
+      "death": 0.03545830026268959,
+      "persistence": 0.0021749474108219147,
+      "feature_index": 5,
+      "token_indices": []
+    },
+    {
+      "birth": 0.032898519188165665,
+      "death": 0.034031499177217484,
+      "persistence": 0.0011329799890518188,
+      "feature_index": 6,
+      "token_indices": []
+    },
+    {
+      "birth": 0.03050932288169861,
+      "death": 0.035293176770210266,
+      "persistence": 0.004783853888511658,
+      "feature_index": 9,
+      "token_indices": []
+    },
+    {
+      "birth": 0.02982281520962715,
+      "death": 0.03228255361318588,
+      "persistence": 0.002459738403558731,
+      "feature_index": 12,
+      "token_indices": []
+    },
+    {
+      "birth": 0.024625077843666077,
+      "death": 0.035676535218954086,
+      "persistence": 0.01105145737528801,
+      "feature_index": 43,
+      "token_indices": []
+    }
+  ],
+  "h2_features": [
+    {
+      "birth": 0.05153339356184006,
+      "death": 0.05250244587659836,
+      "persistence": 0.0009690523147583008,
+      "feature_index": 0,
+      "token_indices": []
+    },
+    {
+      "birth": 0.04760611429810524,
+      "death": 0.04819267615675926,
+      "persistence": 0.0005865618586540222,
+      "feature_index": 1,
+      "token_indices": []
+    },
+    {
+      "birth": 0.038441386073827744,
+      "death": 0.04020320251584053,
+      "persistence": 0.0017618164420127869,
+      "feature_index": 2,
+      "token_indices": []
+    },
+    {
+      "birth": 0.03817927837371826,
+      "death": 0.0395103357732296,
+      "persistence": 0.0013310573995113373,
+      "feature_index": 3,
+      "token_indices": []
+    },
+    {
+      "birth": 0.03712977468967438,
+      "death": 0.040479741990566254,
+      "persistence": 0.0033499673008918762,
+      "feature_index": 4,
+      "token_indices": []
+    },
+    {
+      "birth": 0.03700228035449982,
+      "death": 0.037331100553274155,
+      "persistence": 0.00032882019877433777,
+      "feature_index": 5,
+      "token_indices": []
+    },
+    {
+      "birth": 0.036922529339790344,
+      "death": 0.03728394955396652,
+      "persistence": 0.000361420214176178,
+      "feature_index": 6,
+      "token_indices": []
+    },
+    {
+      "birth": 0.036484528332948685,
+      "death": 0.03975396230816841,
+      "persistence": 0.0032694339752197266,
+      "feature_index": 7,
+      "token_indices": []
+    },
+    {
+      "birth": 0.03612546622753143,
+      "death": 0.03699629381299019,
+      "persistence": 0.0008708275854587555,
+      "feature_index": 8,
+      "token_indices": []
+    },
+    {
+      "birth": 0.03609422221779823,
+      "death": 0.037047214806079865,
+      "persistence": 0.0009529925882816315,
+      "feature_index": 9,
+      "token_indices": []
+    },
+    {
+      "birth": 0.03516576066613197,
+      "death": 0.03619695454835892,
+      "persistence": 0.001031193882226944,
+      "feature_index": 10,
+      "token_indices": []
+    },
+    {
+      "birth": 0.03501301631331444,
+      "death": 0.037743277847766876,
+      "persistence": 0.0027302615344524384,
+      "feature_index": 11,
+      "token_indices": []
+    },
+    {
+      "birth": 0.0349799245595932,
+      "death": 0.03534441068768501,
+      "persistence": 0.00036448612809181213,
+      "feature_index": 12,
+      "token_indices": []
+    },
+    {
+      "birth": 0.03463469818234444,
+      "death": 0.03530867397785187,
+      "persistence": 0.000673975795507431,
+      "feature_index": 13,
+      "token_indices": []
+    },
+    {
+      "birth": 0.03445487469434738,
+      "death": 0.03473204746842384,
+      "persistence": 0.0002771727740764618,
+      "feature_index": 14,
+      "token_indices": []
+    },
+    {
+      "birth": 0.03374004364013672,
+      "death": 0.03444864600896835,
+      "persistence": 0.0007086023688316345,
+      "feature_index": 15,
+      "token_indices": []
+    },
+    {
+      "birth": 0.03341348469257355,
+      "death": 0.03374672681093216,
+      "persistence": 0.00033324211835861206,
+      "feature_index": 16,
+      "token_indices": []
+    },
+    {
+      "birth": 0.03340243175625801,
+      "death": 0.03343256562948227,
+      "persistence": 3.0133873224258423e-05,
+      "feature_index": 17,
+      "token_indices": []
+    },
+    {
+      "birth": 0.0333053320646286,
+      "death": 0.038106080144643784,
+      "persistence": 0.0048007480800151825,
+      "feature_index": 18,
+      "token_indices": []
+    },
+    {
+      "birth": 0.033244188874959946,
+      "death": 0.034170955419540405,
+      "persistence": 0.0009267665445804596,
+      "feature_index": 19,
+      "token_indices": []
+    },
+    {
+      "birth": 0.03294963017106056,
+      "death": 0.0334908552467823,
+      "persistence": 0.0005412250757217407,
+      "feature_index": 20,
+      "token_indices": []
+    },
+    {
+      "birth": 0.032594382762908936,
+      "death": 0.03278970345854759,
+      "persistence": 0.00019532069563865662,
+      "feature_index": 21,
+      "token_indices": []
+    },
+    {
+      "birth": 0.032470136880874634,
+      "death": 0.03485045209527016,
+      "persistence": 0.002380315214395523,
+      "feature_index": 22,
+      "token_indices": []
+    },
+    {
+      "birth": 0.03244203329086304,
+      "death": 0.037038661539554596,
+      "persistence": 0.004596628248691559,
+      "feature_index": 23,
+      "token_indices": []
+    },
+    {
+      "birth": 0.03239013999700546,
+      "death": 0.03304068371653557,
+      "persistence": 0.0006505437195301056,
+      "feature_index": 24,
+      "token_indices": []
+    },
+    {
+      "birth": 0.03193841502070427,
+      "death": 0.038164954632520676,
+      "persistence": 0.006226539611816406,
+      "feature_index": 25,
+      "token_indices": []
+    },
+    {
+      "birth": 0.031815044581890106,
+      "death": 0.041984427720308304,
+      "persistence": 0.010169383138418198,
+      "feature_index": 26,
+      "token_indices": []
+    },
+    {
+      "birth": 0.03148176893591881,
+      "death": 0.032085027545690536,
+      "persistence": 0.0006032586097717285,
+      "feature_index": 27,
+      "token_indices": []
+    },
+    {
+      "birth": 0.0313454270362854,
+      "death": 0.03602305054664612,
+      "persistence": 0.004677623510360718,
+      "feature_index": 31,
+      "token_indices": []
+    },
+    {
+      "birth": 0.0313393771648407,
+      "death": 0.032888755202293396,
+      "persistence": 0.0015493780374526978,
+      "feature_index": 32,
+      "token_indices": []
+    },
+    {
+      "birth": 0.03129417821764946,
+      "death": 0.0398787222802639,
+      "persistence": 0.008584544062614441,
+      "feature_index": 33,
+      "token_indices": []
+    },
+    {
+      "birth": 0.0311008021235466,
+      "death": 0.032077111303806305,
+      "persistence": 0.0009763091802597046,
+      "feature_index": 34,
+      "token_indices": []
+    },
+    {
+      "birth": 0.031098367646336555,
+      "death": 0.038124896585941315,
+      "persistence": 0.007026528939604759,
+      "feature_index": 35,
+      "token_indices": []
+    },
+    {
+      "birth": 0.03078463114798069,
+      "death": 0.03282463550567627,
+      "persistence": 0.0020400043576955795,
+      "feature_index": 38,
+      "token_indices": []
+    },
+    {
+      "birth": 0.030484315007925034,
+      "death": 0.032347939908504486,
+      "persistence": 0.0018636249005794525,
+      "feature_index": 41,
+      "token_indices": []
+    },
+    {
+      "birth": 0.030389046296477318,
+      "death": 0.03789685294032097,
+      "persistence": 0.007507806643843651,
+      "feature_index": 43,
+      "token_indices": []
+    },
+    {
+      "birth": 0.03034943901002407,
+      "death": 0.0328027568757534,
+      "persistence": 0.002453317865729332,
+      "feature_index": 44,
+      "token_indices": []
+    },
+    {
+      "birth": 0.03027988411486149,
+      "death": 0.033835604786872864,
+      "persistence": 0.0035557206720113754,
+      "feature_index": 46,
+      "token_indices": []
+    },
+    {
+      "birth": 0.029913049191236496,
+      "death": 0.03478103131055832,
+      "persistence": 0.004867982119321823,
+      "feature_index": 48,
+      "token_indices": []
+    },
+    {
+      "birth": 0.029735976830124855,
+      "death": 0.032846204936504364,
+      "persistence": 0.003110228106379509,
+      "feature_index": 53,
+      "token_indices": []
+    },
+    {
+      "birth": 0.029735036194324493,
+      "death": 0.03245736286044121,
+      "persistence": 0.0027223266661167145,
+      "feature_index": 54,
+      "token_indices": []
+    },
+    {
+      "birth": 0.029475819319486618,
+      "death": 0.039898768067359924,
+      "persistence": 0.010422948747873306,
+      "feature_index": 62,
+      "token_indices": []
+    },
+    {
+      "birth": 0.029406385496258736,
+      "death": 0.03548860177397728,
+      "persistence": 0.006082216277718544,
+      "feature_index": 63,
+      "token_indices": []
+    },
+    {
+      "birth": 0.029219690710306168,
+      "death": 0.032181985676288605,
+      "persistence": 0.002962294965982437,
+      "feature_index": 69,
+      "token_indices": []
+    },
+    {
+      "birth": 0.028818095102906227,
+      "death": 0.03315390646457672,
+      "persistence": 0.004335811361670494,
+      "feature_index": 74,
+      "token_indices": []
+    },
+    {
+      "birth": 0.028506264090538025,
+      "death": 0.03443280979990959,
+      "persistence": 0.005926545709371567,
+      "feature_index": 78,
+      "token_indices": []
+    },
+    {
+      "birth": 0.02846158854663372,
+      "death": 0.03289094194769859,
+      "persistence": 0.004429353401064873,
+      "feature_index": 79,
+      "token_indices": []
+    },
+    {
+      "birth": 0.027936169877648354,
+      "death": 0.03219274431467056,
+      "persistence": 0.004256574437022209,
+      "feature_index": 93,
+      "token_indices": []
+    },
+    {
+      "birth": 0.027682559564709663,
+      "death": 0.03220980241894722,
+      "persistence": 0.0045272428542375565,
+      "feature_index": 99,
+      "token_indices": []
+    },
+    {
+      "birth": 0.02712501399219036,
+      "death": 0.03374612703919411,
+      "persistence": 0.006621113047003746,
+      "feature_index": 128,
+      "token_indices": []
+    },
+    {
+      "birth": 0.027116868644952774,
+      "death": 0.03325095772743225,
+      "persistence": 0.006134089082479477,
+      "feature_index": 130,
+      "token_indices": []
+    },
+    {
+      "birth": 0.027046887204051018,
+      "death": 0.033255547285079956,
+      "persistence": 0.006208660081028938,
+      "feature_index": 134,
+      "token_indices": []
+    },
+    {
+      "birth": 0.026944784447550774,
+      "death": 0.034178901463747025,
+      "persistence": 0.007234117016196251,
+      "feature_index": 140,
+      "token_indices": []
+    },
+    {
+      "birth": 0.026719603687524796,
+      "death": 0.033074136823415756,
+      "persistence": 0.006354533135890961,
+      "feature_index": 151,
+      "token_indices": []
+    },
+    {
+      "birth": 0.026297764852643013,
+      "death": 0.032583706080913544,
+      "persistence": 0.006285941228270531,
+      "feature_index": 163,
+      "token_indices": []
+    },
+    {
+      "birth": 0.02604607865214348,
+      "death": 0.03216508403420448,
+      "persistence": 0.006119005382061005,
+      "feature_index": 176,
+      "token_indices": []
+    },
+    {
+      "birth": 0.025965236127376556,
+      "death": 0.03672585263848305,
+      "persistence": 0.010760616511106491,
+      "feature_index": 179,
+      "token_indices": []
+    },
+    {
+      "birth": 0.025593915954232216,
+      "death": 0.03500385582447052,
+      "persistence": 0.009409939870238304,
+      "feature_index": 191,
+      "token_indices": []
+    },
+    {
+      "birth": 0.0255777295678854,
+      "death": 0.032819878309965134,
+      "persistence": 0.007242148742079735,
+      "feature_index": 193,
+      "token_indices": []
+    },
+    {
+      "birth": 0.024244271218776703,
+      "death": 0.033019520342350006,
+      "persistence": 0.008775249123573303,
+      "feature_index": 271,
+      "token_indices": []
+    },
+    {
+      "birth": 0.02286352775990963,
+      "death": 0.034531768411397934,
+      "persistence": 0.011668240651488304,
+      "feature_index": 393,
+      "token_indices": []
+    }
+  ]
+}

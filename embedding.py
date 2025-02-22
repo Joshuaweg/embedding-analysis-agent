@@ -14,7 +14,31 @@ from ripser import ripser
 from persim import plot_diagrams
 import sys
 from homology import compute_persistence, save_persistence_results
-
+def compute_edge_weights(node_data, links, weight_type="combined"):
+    """Compute edge weights based on different similarity metrics"""
+    weights = {}
+    
+    for link in links:
+        # Skip single-node links
+        if len(link) < 2:
+            continue
+            
+        source, target = str(link[0]), str(link[1])
+        source_node = node_data[source]
+        target_node = node_data[target]
+        
+        # Position-based similarity
+        pos1 = np.array([source_node["position"]["x"], source_node["position"]["y"]])
+        pos2 = np.array([target_node["position"]["x"], target_node["position"]["y"]])
+        distance = np.linalg.norm(pos1 - pos2)
+        weight = 1 / (1 + distance)  # Convert distance to similarity
+        
+        # Create a canonical edge key by sorting node IDs
+        nodes = sorted([source, target])
+        edge_key = f"{nodes[0]}|{nodes[1]}"  # Use | as separator
+        weights[edge_key] = float(weight)
+    
+    return weights
 def maxmin_sampling(points, n_samples=10000):
     """MaxMin sampling to get well-spread points"""
     n_points = len(points)
@@ -73,9 +97,10 @@ mapper = km.KeplerMapper(verbose=1)
 print(len(embeddings[0]))
 reducer = UMAP(
     n_components=2,
-    n_neighbors=200,    # Increase to consider more global structure
-    min_dist=0.1,     # Decrease to allow tighter clusters
-    )
+    n_neighbors=100,    # Decrease from 200 to reduce connections
+    min_dist=0.2,      # Increase to spread clusters more
+    random_state=42    # For reproducibility
+)
 projected_embeddings = reducer.fit_transform(intermediate_embeddings)
 plt.scatter(projected_embeddings[:,0],projected_embeddings[:,1],alpha=0.5)
 plt.savefig("tsne.png")
@@ -91,12 +116,12 @@ graph = mapper.map(
     projected_embeddings, 
     embeddings,
     clusterer=AgglomerativeClustering(
-        n_clusters=30,
-        linkage='average'
+        n_clusters=20,  # Decrease from 30 to create larger clusters
+        linkage='complete'  # Change to 'complete' for more distinct clusters
     ),
     cover=km.Cover(
-        n_cubes=40,
-        perc_overlap=0.55
+        n_cubes=30,         # Decrease from 40 to reduce overlap regions
+        perc_overlap=0.3    # Decrease from 0.55 to reduce connections between cubes
     )
 )
 
@@ -137,9 +162,12 @@ for node in graph["nodes"]:
         }
     }
 
-# Add global graph metadata
+# After creating the graph with mapper.map()
+nodes = graph["nodes"]  # Get nodes from mapper graph
+
+# Create the graph data structure
 graph_data = {
-    "nodes": node_data,
+    "nodes": nodes,
     "links": [simp for simp in graph["simplices"]],
     "metadata": {
         "total_nodes": len(graph["nodes"]),
@@ -155,6 +183,9 @@ graph_data = {
         }
     }
 }
+
+# Now compute edge weights after nodes and links are defined
+graph_data["edge_weights"] = compute_edge_weights(node_data, graph_data["links"], weight_type="combined")
 
 # Get the cluster centers for each node
 cluster_centers = []
@@ -172,53 +203,34 @@ cluster_centers = np.array(cluster_centers)
 #save_persistence_results(persistence_results)
 
 # Save updated graph data
-with open('node_clusters_2.json', 'w', encoding='utf-8') as f:
+with open('node_clusters_with_weights.json', 'w', encoding='utf-8') as f:
     json.dump(graph_data, f, indent=2)
 
-
-
-
 # Visualize the graph
-node_data = {}
+tooltips = []  # Create list for all data points
+for i in range(len(embeddings)):
+    tooltips.append("Token: " + tokenizer.decode([i]))  # Default tooltip shows token
+
+# Update tooltips for clustered points
 for node in graph["nodes"]:
     node_indices = graph["nodes"][node]
-    
-    # Convert indices to actual tokens and join them
     node_tokens = [tokenizer.decode([tid]) for tid in node_indices]
-    token_string = " | ".join(node_tokens)  # Join tokens with separator
+    token_string = " | ".join(node_tokens)
     
-    # Get connected nodes
-    connected_nodes = []
-    for edge in graph["simplices"]:
-        source = edge[0]
-        target = edge[(1 if len(edge)==2 else 0)]
-        if str(source) == str(node):
-            connected_nodes.append(str(target))
-        elif str(target) == str(node):
-            connected_nodes.append(str(source))
-    
-    node_center = np.mean(projected_embeddings[node_indices], axis=0)
-    
-    # Update node_data structure
-    node_data[str(node)] = {
-        "members": token_string,  # This is the key change - use token_string instead of token_ids
-        "tokens": node_tokens,    # Keep the individual tokens as well
-        "size": len(node_indices),
-        "connected_nodes": connected_nodes,
-        "position": {
-            "x": float(node_center[0]),
-            "y": float(node_center[1])
-        },
-        "cluster_spread": {
-            "std_x": float(np.std(projected_embeddings[node_indices, 0])),
-            "std_y": float(np.std(projected_embeddings[node_indices, 1]))
-        }
-    }
+    # Update tooltip for each index in this node
+    for idx in node_indices:
+        tooltips[idx] = f"""
+            Node: {node}<br>
+            Token: {tokenizer.decode([idx])}<br>
+            Cluster Size: {len(node_indices)}<br>
+            Sample Tokens: {', '.join(node_tokens[:5])}
+        """
 
-# Then in your visualization call, you might want to customize the tooltip
+# Visualization with numpy array of tooltips
 mapper.visualize(
     graph,
-    path_html="mapper_graph_2.html",
+    path_html="mapper_graph_with_weights.html",
     title="GPT2 embedding Analysis",
-    custom_tooltips=node_data  # This should display the tokens in the tooltips
+    custom_tooltips=np.array(tooltips),  # Convert to numpy array
+    include_searchbar=True,
 )

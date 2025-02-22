@@ -120,3 +120,36 @@ Provides:
 - Token ID lookup
 - Token string conversion
 - Token relationship exploration
+
+## Token Embedding Graph Visualization (mapper_graph_with_weights.html)
+
+Interactive visualization of GPT-2's token embedding space using the Mapper algorithm.
+![MapperVisualization](image.png)  
+### Graph Statistics
+- **Nodes**: 9,020 nodes representing clusters of semantically related tokens
+- **Edges**: 36,331 connections between related token clusters
+- **Layout**: Force-directed layout showing semantic relationships
+
+### Features
+- **Interactive Navigation**: Pan, zoom, and hover over nodes to explore
+- **Search Bar**: Search for specific tokens to highlight their locations in the graph
+- **Node Information**: 
+  - Hover tooltips show node details including:
+  - Token content
+  - Cluster size
+  - Sample tokens from the cluster
+
+### Graph Structure
+- Nodes represent clusters of semantically similar tokens
+- Edge weights based on positional and semantic similarity
+- Connected components show related concept groups
+- Denser regions indicate closely related token clusters
+
+### Usage
+1. Open mapper_graph_with_weights.html in a web browser
+2. Use search bar to find specific tokens
+3. Hover over nodes to see token details
+4. Pan and zoom to explore different regions
+5. Look for patterns in token clustering and connections
+
+The visualization helps understand how GPT-2 organizes its vocabulary in the embedding space and reveals relationships between different concepts and tokens.
