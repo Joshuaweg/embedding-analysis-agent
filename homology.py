@@ -9,7 +9,63 @@ import json
 import torch
 import gudhi
 import sys
-rips_complex = None 
+import networkx as nx
+rips_complex = None
+
+def create_piecewise_function(birth, death, t):
+    """
+    Creates a piecewise linear function for a single birth-death pair
+    """
+    result = np.zeros_like(t)
+    
+    # The function is min(t - birth, death - t) where positive
+    for i, val in enumerate(t):
+        if val < birth or val > death:
+            result[i] = 0
+        else:
+            midpoint = (birth + death) / 2
+            if val <= midpoint:
+                result[i] = val - birth
+            else:
+                result[i] = death - val
+                
+    return np.maximum(result, 0)  # Keep only positive values
+def compute_landscape(persistence_diagram, num_landscapes=5, resolution=1000):
+    """
+    Compute persistence landscape from a persistence diagram
+    
+    Args:
+        persistence_diagram: nx2 array of birth-death pairs
+        num_landscapes: number of landscape functions to compute
+        resolution: number of points to evaluate landscape at
+    """
+    # Remove points on the diagonal
+    off_diag = persistence_diagram[persistence_diagram[:, 0] != persistence_diagram[:, 1]]
+    
+    if len(off_diag) == 0:
+        print("No off-diagonal points found")
+        return np.zeros((num_landscapes, resolution))
+    
+    # Define the range for the landscape
+    t_min = off_diag[:, 0].min()
+    t_max = off_diag[:, 1].max()
+    t = np.linspace(t_min, t_max, resolution)
+    
+    # Compute all piecewise linear functions
+    functions = np.zeros((len(off_diag), resolution))
+    for i, (birth, death) in enumerate(off_diag):
+        functions[i] = create_piecewise_function(birth, death, t)
+    
+    # Create the landscape functions
+    landscapes = np.zeros((num_landscapes, resolution))
+    for i in range(resolution):
+        # Sort values at this position in descending order
+        values = np.sort(functions[:, i])[::-1]
+        # Take the k highest values
+        for k in range(min(num_landscapes, len(values))):
+            landscapes[k, i] = values[k]
+            
+    return landscapes, t
 def grid_sampling(points, n_samples):
     """Sample points using a grid-based approach"""
     from sklearn.preprocessing import MinMaxScaler
@@ -117,7 +173,7 @@ def compute_persistence(embeddings: np.ndarray,
     persistence_reducer = UMAP(
         n_components=n_components,
         n_neighbors=500,
-        min_dist=0.01,
+        min_dist=0.01
     )
     projected_embeddings = persistence_reducer.fit_transform(embeddings)
     print(f"UMAP projection shape: {projected_embeddings.shape}")
@@ -127,11 +183,15 @@ def compute_persistence(embeddings: np.ndarray,
         projected_embeddings, 
         n_samples=n_samples
     )
-    
+    # lets save a json that keys sample indices with their coordinates
+    indices = np.arange(len(sampled_embeddings))
+    sample_indices_coords = {i: sampled_embeddings[n].tolist() for (i,n) in zip(sample_indices,indices)}
+    print(sample_indices_coords)
+    with open('sample_indices_coords.json', 'w') as f:
+        json.dump(sample_indices_coords, f, indent=2)
     # Normalize the embeddings to [-1, 1] range
     max_abs = np.max(np.abs(sampled_embeddings))
     sampled_embeddings = sampled_embeddings / max_abs
-    
     print(f"Computing persistent homology on {len(sampled_embeddings)} points...")
     try:
         # Compute distance matrix first to better manage memory
@@ -152,6 +212,20 @@ def compute_persistence(embeddings: np.ndarray,
         )
         
         diagrams = rips_complex['dgms']
+        print(len(diagrams))
+        for diagram in diagrams:
+            landscapes, t = compute_landscape(diagram)
+            d = 0
+            plt.figure(figsize=(10, 6))
+            for i in range(len(landscapes)):
+                plt.plot(t, landscapes[i], label=f'λ_{i+1}')
+                plt.xlabel('t')
+                plt.ylabel('Landscape value')
+                plt.title('Persistence Landscape')
+                plt.legend()
+                plt.grid(True)
+            plt.savefig(f"persistence_landscape_H_{d}.png")
+            d += 1
         cocycles = rips_complex.get('cocycles', [[], [], []])  # Default empty lists if no cocycles
         print("Persistent homology computation successful")
         
@@ -189,25 +263,21 @@ def compute_persistence(embeddings: np.ndarray,
         print(traceback.format_exc())
         raise
 
-def save_persistence_results(results: Dict, filename: str = "persistence_results.json"):
-    """Save persistence analysis results to JSON file."""
-    # Convert numpy arrays and types to JSON-serializable formats
+def save_persistence_results(results):
+    """Save persistence results to JSON file."""
     json_results = {
-        "sample_indices": [int(i) for i in results["sample_indices"]],
-        "statistics": {
-            dim: {
-                "num_features": int(stats["num_features"]),
-                "avg_lifetime": float(stats["avg_lifetime"]),
-                "max_lifetime": float(stats["max_lifetime"])
-            }
-            for dim, stats in results["statistics"].items()
-        },
-        "diagrams": [diagram.tolist() for diagram in results["diagrams"]],
-        # Handle cocycles differently since they're already lists
-        "cocycles": results["cocycles"]
+        "diagrams": [
+            [list(map(float, point)) for point in diagram]
+            for diagram in results["diagrams"]
+        ],
+        "cocycles": [
+            [array.tolist() for array in cycle_list] 
+            for cycle_list in results["cocycles"]
+        ],
+        "sample_indices": results["sample_indices"]
     }
     
-    with open(filename, 'w') as f:
+    with open('persistence_results.json', 'w') as f:
         json.dump(json_results, f, indent=2)
 
 def compute_persistence_gudhi(sampled_embeddings):
@@ -247,10 +317,47 @@ def extract_feature_indices(diagrams, cocycles, sample_indices, dimension,
         if (min_birth <= birth <= max_birth and 
             min_death <= death <= max_death):
             try:
-                # Get the actual point indices for this feature
-                feature_points = features_cocycles[i] if i < len(features_cocycles) else []
-                # Map back to original token indices
-                token_indices = [int(sample_indices[idx]) for idx in feature_points]
+                # Get the cocycle for this feature
+                cocycle = features_cocycles[i] if i < len(features_cocycles) else []
+                
+                # Extract point indices from cocycle
+                if dimension == 1:  # For H1 features (loops)
+                    # Build connected components from edges
+                    edges = [(int(edge[0]), int(edge[1])) for edge in cocycle]
+                    if not edges:
+                        continue
+                        
+                    # Create graph from edges
+                    G = nx.Graph()
+                    G.add_edges_from(edges)
+                    
+                    # Only keep if it forms a cycle
+                    cycles = list(nx.cycle_basis(G))
+                    if not cycles:
+                        continue
+                        
+                    # Get all points in the cycles
+                    point_indices = set()
+                    for cycle in cycles:
+                        point_indices.update(cycle)
+                    
+                    # Only keep if cycle has at least 3 points
+                    if len(point_indices) < 3:
+                        continue
+                        
+                    token_indices = [int(sample_indices[idx]) for idx in point_indices]
+                
+                elif dimension == 2:  # For H2 features (voids)
+                    # Each cocycle element is [idx1, idx2, idx3, val]
+                    point_indices = set()
+                    for triangle in cocycle:
+                        point_indices.update(int(idx) for idx in triangle[:3])
+                    
+                    # Only keep if void has at least 4 points
+                    if len(point_indices) < 4:
+                        continue
+                        
+                    token_indices = [int(sample_indices[idx]) for idx in point_indices]
                 
                 features.append({
                     "birth": float(birth),
@@ -287,9 +394,9 @@ if __name__ == "__main__":
         sample_indices=results['sample_indices'],
         dimension=1,  # H1 features (loops)
         min_birth=0.01,
-        max_birth=0.055,
-        min_death=0.032,
-        max_death=0.055
+        max_birth=0.065,
+        min_death=0.012,
+        max_death=0.065
     )
     
     h2_features = extract_feature_indices(
@@ -298,9 +405,9 @@ if __name__ == "__main__":
         sample_indices=results['sample_indices'],
         dimension=2,  # H2 features (voids)
         min_birth=0.01,
-        max_birth=0.055,
-        min_death=0.032,
-        max_death=0.055
+        max_birth=0.065,
+        min_death=0.012,
+        max_death=0.065
     )
     
     # Save the feature information
