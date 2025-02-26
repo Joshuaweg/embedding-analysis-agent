@@ -23,8 +23,27 @@ Example persistence diagram (threshold = 0.08):
 - H₁ (orange): Loops/holes
 - H₂ (green): Voids/cavities
 
-visualize_samples.py will show you where each feature lies within the global distribution of the samples
-![image](https://github.com/user-attachments/assets/f35a0003-c5ad-4ae4-bbaf-186f05aa3231)
+### Interactive Feature Visualization (visualize_samples.py)
+
+The `visualize_samples.py` script provides an interactive 3D visualization dashboard using Plotly Dash:
+
+- **3D Scatter Plot**:
+  - Gray points: Base token embeddings
+  - Orange points/lines: H1 features (loops/cycles)
+  - Green points: H2 features (voids)
+
+- **Interactive Controls**:
+  - Persistence threshold slider (0.01 to 0.06)
+  - Toggle switches for H1 (Loops) and H2 (Voids) features
+
+- **Feature Details**:
+  - Hover information shows actual tokens
+  - Birth/death times for topological features
+  - Connected lines show loop structures for H1 features
+  - ConvexHull visualization for H2 features
+
+![Visualization Sample](https://github.com/user-attachments/assets/f35a0003-c5ad-4ae4-bbaf-186f05aa3231)
+
 ### 3. Graph Analysis Tools
 - Breadth-First Search (BFS) for pathfinding between tokens
 - Connected component analysis
