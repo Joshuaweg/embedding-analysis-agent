@@ -23,6 +23,8 @@ Example persistence diagram (threshold = 0.08):
 - H₁ (orange): Loops/holes
 - H₂ (green): Voids/cavities
 
+visualize_samples.py will show you where each feature lies within the global distribution of the samples
+![image](https://github.com/user-attachments/assets/f35a0003-c5ad-4ae4-bbaf-186f05aa3231)
 ### 3. Graph Analysis Tools
 - Breadth-First Search (BFS) for pathfinding between tokens
 - Connected component analysis
@@ -86,8 +88,7 @@ This will:
 - Compute persistence diagrams with radius threshold 0.08 [this will be the what most machines can handle]
 - Save results to `persistence_diagrams.png` and `persistence_results.json`
 
-visualize_samples.py will show you where each feature lies within the global distribution of the samples
-![image](https://github.com/user-attachments/assets/f35a0003-c5ad-4ae4-bbaf-186f05aa3231)
+
 
 
 ### 3. Analyze Graph Structure
