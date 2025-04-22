@@ -638,7 +638,7 @@ class TokenGraph:
 # Example usage:
 if __name__ == "__main__":
     # Load the graph
-    graph = TokenGraph.from_json("node_clusters_2.json")
+    graph = TokenGraph.from_json("node_clusters_with_weights.json")
     tokenizer = GPT2Tokenizer.from_pretrained("gpt2")
     word = "African American"
     # Example queries

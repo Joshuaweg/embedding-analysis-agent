@@ -125,82 +125,50 @@ graph = mapper.map(
     )
 )
 
-# Create a dictionary to store node information
-node_data = {}
-
-# Extract token IDs and graph structure for each node
-for node in graph["nodes"]:
-    # Get the indices from the node
-    node_indices = graph["nodes"][node]
-    
-    # Get connected nodes
-    connected_nodes = []
-    for edge in graph["simplices"]:
-        source = edge[0]  # Links are tuples or lists of [source, target]
-        target = edge[ (1 if len(edge)==2 else 0)]
-        if str(source) == str(node):
-            connected_nodes.append(str(target))
-        elif str(target) == str(node):
-            connected_nodes.append(str(source))
-    
-    # Get node position from projected embeddings
-    node_center = np.mean(projected_embeddings[node_indices], axis=0)
-    
-    # Store all information in the dictionary
-    node_data[str(node)] = {
-        "token_ids": [int(i) for i in node_indices],
-        "tokens": [tokenizer.decode([tid]) for tid in node_indices],
-        "size": len(node_indices),
-        "connected_nodes": connected_nodes,
-        "position": {
-            "x": float(node_center[0]),
-            "y": float(node_center[1])
-        },
-        "cluster_spread": {
-            "std_x": float(np.std(projected_embeddings[node_indices, 0])),
-            "std_y": float(np.std(projected_embeddings[node_indices, 1]))
-        }
-    }
-
 # After creating the graph with mapper.map()
 nodes = graph["nodes"]  # Get nodes from mapper graph
 
 # Create the graph data structure
 graph_data = {
-    "nodes": nodes,
-    "links": [simp for simp in graph["simplices"]],
-    "metadata": {
-        "total_nodes": len(graph["nodes"]),
-        "total_edges": len(graph["links"]),
-        "projection_bounds": {
-            "x": [float(np.min(projected_embeddings[:,0])), float(np.max(projected_embeddings[:,0]))],
-            "y": [float(np.min(projected_embeddings[:,1])), float(np.max(projected_embeddings[:,1]))]
-        },
-        "mapper_params": {
-            "n_cubes": 50,
-            "overlap": 0.2,
-            "clusters_per_bin": 10
-        }
-    }
+    "nodes": {}  # Initialize empty nodes dictionary
 }
 
+# Process each node to match the expected structure
+for node_id, node_indices in nodes.items():
+    # Get node position from projected embeddings
+    node_center = np.mean(projected_embeddings[node_indices], axis=0)
+    node_spread = {
+        "std_x": float(np.std(projected_embeddings[node_indices, 0])),
+        "std_y": float(np.std(projected_embeddings[node_indices, 1]))
+    }
+    
+    # Get connected nodes
+    connected_nodes = []
+    for edge in graph["simplices"]:
+        if len(edge) >= 2:  # Ensure edge has at least 2 nodes
+            source, target = str(edge[0]), str(edge[1])
+            if source == node_id:
+                connected_nodes.append(target)
+            elif target == node_id:
+                connected_nodes.append(source)
+    
+    # Create the node entry with all required fields
+    graph_data["nodes"][node_id] = {
+        "id": node_id,
+        "token_ids": [int(i) for i in node_indices],
+        "tokens": [tokenizer.decode([tid]) for tid in node_indices],
+        "size": len(node_indices),
+        "position": {
+            "x": float(node_center[0]),
+            "y": float(node_center[1])
+        },
+        "cluster_spread": node_spread,
+        "connected_nodes": connected_nodes
+    }
+
 # Now compute edge weights after nodes and links are defined
-graph_data["edge_weights"] = compute_edge_weights(node_data, graph_data["links"], weight_type="combined")
-
-# Get the cluster centers for each node
-cluster_centers = []
-cluster_tokens = []
-for node in graph["nodes"]:
-    node_indices = graph["nodes"][node]
-    center = np.mean(embeddings[node_indices], axis=0)
-    cluster_centers.append(center)
-    cluster_tokens.append(node_indices)
-
-cluster_centers = np.array(cluster_centers)
-
-# After computing embeddings...
-#persistence_results = compute_persistence(embeddings)
-#save_persistence_results(persistence_results)
+edge_weights = compute_edge_weights(graph_data["nodes"], graph["simplices"], weight_type="combined")
+graph_data["edge_weights"] = edge_weights
 
 # Save updated graph data
 with open('node_clusters_with_weights.json', 'w', encoding='utf-8') as f:
