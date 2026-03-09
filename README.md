@@ -1,6 +1,46 @@
-# Topological Analysis of GPT-2 Word Embeddings
+# Embedding Analysis Agent
 
-This project performs topological data analysis on GPT-2's word embeddings to understand the semantic structure and relationships between tokens in the embedding space.
+An AI agent for exploring the semantic structure of GPT-2's token embedding space using Topological Data Analysis (TDA) and natural language queries.
+
+The pipeline maps all 50,257 GPT-2 tokens through the Mapper algorithm to produce a graph of ~9,020 nodes and 36,331 edges. A PydanticAI agent with 16 graph analysis tools runs against this graph, allowing natural language queries about token relationships, semantic communities, and structural biases.
+
+## Quick Start
+
+### Prerequisites
+- Python 3.10+
+- [Ollama](https://ollama.com) running locally with a tool-capable model
+
+```bash
+# Pull a recommended model
+ollama pull llama3.1:8b   # or qwen2.5:7b, deepseek-r1:7b
+
+# Install dependencies
+python3 -m venv .venv && source .venv/bin/activate
+pip install -r requirements.txt
+
+# Run a query
+python main.py --query "Find the path between 'king' and 'queen'"
+
+# Interactive mode (graph loaded once, multi-turn conversation)
+python main.py --interactive
+
+# Use a different model
+python main.py --model qwen2.5:7b --query "Which tokens are most semantically central?"
+
+# Run without Ollama (test mode, no tool calls)
+python main.py --query "test" --test-mode
+```
+
+### CLI Flags
+| Flag | Description | Default |
+|---|---|---|
+| `--query TEXT` | Single query to run | — |
+| `--graph PATH` | Path to graph JSON file | `node_clusters_with_weights.json` |
+| `--model NAME` | Ollama model name | `llama3.1:8b` |
+| `--interactive` | Start interactive REPL session | — |
+| `--test-mode` | Use TestModel instead of Ollama | — |
+
+---
 
 ## Analysis Methods
 
@@ -44,15 +84,36 @@ The `visualize_samples.py` script provides an interactive 3D visualization dashb
 
 ![Visualization Sample](https://github.com/user-attachments/assets/f35a0003-c5ad-4ae4-bbaf-186f05aa3231)
 
-### 3. Graph Analysis Tools
-- Breadth-First Search (BFS) for pathfinding between tokens
-- Connected component analysis
-- Distance metrics between tokens in the same component
-- Random walk functionality for exploring semantic neighborhoods
-- Network analysis including:
-  - Centrality measures
-  - Component size distribution
-  - Node connectivity patterns
+### 3. Embedding Analysis Agent
+
+A PydanticAI agent connects to a local Ollama instance and exposes 16 graph analysis tools:
+
+| Tool | Description |
+|---|---|
+| `find_nodes_with_token` | Locate all graph nodes containing a given token |
+| `get_node_info` | Get tokens and connections for a specific node |
+| `get_connected_nodes` | List immediate neighbours of a node |
+| `get_hypercube_nodes` | List all clusters within a hypercube |
+| `bfs_path` | Shortest hop path between two nodes |
+| `weighted_bfs_path` | Highest-similarity path between two nodes |
+| `find_all_paths` | All paths up to a max depth |
+| `analyze_paths` | Explore all paths radiating from a node |
+| `random_walk` | Random walk from a starting node |
+| `analyze_components` | Connected component structure |
+| `detect_communities` | Louvain community detection |
+| `compute_node_centrality` | Degree, betweenness, closeness, eigenvector centrality |
+| `analyze_network` | Global graph metrics (density, clustering, diameter) |
+| `compute_graph_statistics` | Summary statistics |
+| `extract_subgraph` | Zoom into a region of interest |
+| `analyze_token_patterns` | Token frequency and co-occurrence patterns |
+
+**Example queries:**
+```bash
+python main.py --query "Find the path between 'king' and 'queen'"
+python main.py --query "Which tokens are most semantically central in the graph?"
+python main.py --query "Are gender pronouns clustered together?"
+python main.py --query "What tokens does node cube0_cluster0 contain?"
+```
 
 ## Key Findings
 - The embedding space shows apparent clustering of semantically related tokens
@@ -61,89 +122,65 @@ The `visualize_samples.py` script provides an interactive 3D visualization dashb
 - Topological features suggest a hierarchical organization of language concepts
 
 ## Future Work
-- Implementation of an AI agent for automated graph analysis
+- TDA pipeline integration: run Mapper + persistent homology from raw embeddings end-to-end
 - Enhanced visualization of topological features
-- Integration with language understanding tasks
-- Comparative analysis with other embedding models
+- Comparative analysis with other embedding models (GPT-2 large, Llama, etc.)
+- Streaming output for long-running agent queries
 
 ## Files
-- `embedding.py`: Main implementation of Mapper algorithm
-- `homology.py`: Persistent homology computation
-- `graph_structure.py`: Graph analysis tools and utilities
-- `token_rag.py`: RAG system for querying token relationships
-- `analyze_clusters.py`: Cluster analysis tools
-- `token_table.py`: Token lookup and management utilities
+| File | Description |
+|---|---|
+| `main.py` | CLI entry point (`--query`, `--interactive`, `--model`, etc.) |
+| `topology_agent.py` | PydanticAI agent wired to Ollama |
+| `agent_tools.py` | 16 graph analysis tool functions |
+| `system_prompts.py` | Agent system prompt |
+| `graph_structure.py` | `TokenGraph` and `Node` data structures |
+| `embedding.py` | Mapper algorithm pipeline |
+| `homology.py` | Persistent homology computation |
+| `node_clusters_with_weights.json` | Precomputed graph (~11 MB) |
 
 ## Requirements
-- Python 3.8+
-- PyTorch
-- transformers
-- ripser
-- persim
-- UMAP
-- NetworkX
-- scikit-learn
+- Python 3.10+
+- [Ollama](https://ollama.com) with a tool-capable model (`llama3.1:8b`, `qwen2.5:7b`, or `deepseek-r1:7b` recommended)
+- See `requirements.txt` for Python dependencies (pydantic-ai, networkx, scikit-learn, umap-learn, transformers, etc.)
 
 ## Usage
 
-### 1. Generate Token Graph
+### 1. Generate Token Graph (optional — precomputed graph included)
 ```bash
 python embedding.py
 ```
-This will:
-- Load GPT-2 embeddings
-- Perform UMAP dimensionality reduction
-- Create Mapper graph structure with 40 hypercubes and 55% overlap
-- Save results to `node_clusters_2.json`
-- Generate interactive visualization in `mapper_graph_2.html`
+- Loads GPT-2 embeddings, runs UMAP + Mapper
+- Outputs `node_clusters_with_weights.json` and `mapper_graph_with_weights.html`
 
-### 2. Compute Persistent Homology
+### 2. Compute Persistent Homology (optional)
 ```bash
 python homology.py
 ```
-This will:
-- Load embeddings
-- Perform maxmin sampling to select 10000 embeddings (cached in `maxmin_samples.npz`) [this is to improve computation]
-- Compute persistence diagrams with radius threshold 0.08 [this will be the what most machines can handle]
-- Save results to `persistence_diagrams.png` and `persistence_results.json`
+- MaxMin sampling (10,000 points, cached in `maxmin_samples.npz`)
+- Computes persistence diagrams at threshold 0.08
+- Outputs `persistence_diagrams.png` and `persistence_results.json`
 
-
-
-
-### 3. Analyze Graph Structure
+### 3. Run the Agent
 ```bash
-python graph_structure.py
-```
-Features:
-- Find paths between tokens
-- Analyze connected components
-- Perform random walks
-- Generate network statistics
+# Single query
+python main.py --query "Find the path between 'man' and 'woman'"
 
-Example queries:
-```python
-# Find path between tokens
-graph = TokenGraph.from_json("node_clusters_2.json")
-path = graph.bfs_path("cube272_cluster9", "cube52_cluster3")
-print(graph.get_path_info(path))
+# Interactive REPL (graph loaded once, conversation history maintained)
+python main.py --interactive
 
-# Analyze components
-analysis = graph.analyze_components()
-print(graph.get_component_info(analysis))
-
-# Random walk from specific node
-walk = graph.random_walk("cube52_cluster3", num_steps=5)
-print(graph.get_walk_info(walk))
+# Use a specific model or graph file
+python main.py --model qwen2.5:7b --graph node_clusters_with_weights.json --interactive
 ```
 
-### 4. Query Token Relationships
+### 4. Run Tests
 ```bash
-python token_table.py
+# Unit tests (no Ollama required)
+.venv/bin/python -m pytest tests/
+
+# Integration tests (requires Ollama)
+.venv/bin/python -m pytest -m integration
 ```
-Provides:
-- Token ID lookup
-- Token string conversion
-- Token relationship exploration
 
 ## Token Embedding Graph Visualization (mapper_graph_with_weights.html)
 

@@ -535,10 +535,18 @@ class TokenGraph:
             for neighbor in node.connected_nodes:
                 G.add_edge(node_id, neighbor)
         
+        try:
+            eigenvector = nx.eigenvector_centrality(G, max_iter=1000)
+        except nx.PowerIterationFailedConvergence:
+            try:
+                eigenvector = nx.eigenvector_centrality_numpy(G)
+            except Exception:
+                eigenvector = {}
+
         return {
             "degree": nx.degree_centrality(G),
             "betweenness": nx.betweenness_centrality(G),
-            "eigenvector": nx.eigenvector_centrality(G),
+            "eigenvector": eigenvector,
             "closeness": nx.closeness_centrality(G)
         }
 

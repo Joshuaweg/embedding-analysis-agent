@@ -1,72 +1,78 @@
-from agno.agent import Agent, RunResponse
-from agno.models.ollama import Ollama
-from graph_structure import TokenGraph
-from agent_tools import TokenGraphTools
-import json
+"""PydanticAI-based topology analysis agent.
 
-class TopologyAgent:
-    def __init__(self, graph_path: str):
-        # Initialize the graph and tools
-        self.graph = TokenGraph.from_json(graph_path)
-        self.tools = TokenGraphTools(self.graph)
-        
-        # Initialize the Agno agent with llama3.8b
-        self.agent = Agent(
-            model=Ollama(id="llama3.1:8b"),
-            tools=[
-                self.tools.get_node_tool,
-                self.tools.get_connected_nodes_tool,
-                self.tools.get_hypercube_nodes_tool,
-                self.tools.find_nodes_with_token_tool,
-                self.tools.bfs_path_tool,
-                self.tools.find_all_paths_tool,
-                self.tools.analyze_components_tool,
-                self.tools.random_walk_tool,
-                self.tools.analyze_network_tool,
-                self.tools.detect_communities_tool,
-                self.tools.compute_node_centrality_tool,
-                self.tools.extract_subgraph_tool,
-                self.tools.analyze_token_patterns_tool,
-                self.tools.analyze_paths_tool,
-                self.tools.compute_graph_statistics_tool,
-                self.tools.weighted_bfs_path_tool
-            ],
-            tool_choice="auto",
-            markdown=True,
-            instructions="""You are a topology analysis agent specialized in analyzing and navigating token graphs.
-Your capabilities include:
-- Finding paths between nodes
-- Analyzing graph structure and components
-- Detecting communities and patterns
-- Computing various graph metrics
-- Performing random walks and path analysis
+Connects to a local Ollama instance via the OpenAI-compatible endpoint.
+All graph tools are registered as module-level functions from agent_tools.py,
+avoiding the class-method / @tool decorator issue that broke the previous Agno version.
+"""
+from pydantic_ai import Agent
+from pydantic_ai.models.openai import OpenAIModel
+from pydantic_ai.providers.openai import OpenAIProvider
 
-Use the available tools to help users analyze and understand the token graph structure.
-Always provide clear explanations of your findings and reasoning.
+from agent_tools import (
+    Deps,
+    analyze_components,
+    analyze_network,
+    analyze_paths,
+    analyze_token_patterns,
+    bfs_path,
+    compute_graph_statistics,
+    compute_node_centrality,
+    detect_communities,
+    extract_subgraph,
+    find_all_paths,
+    find_nodes_with_token,
+    get_connected_nodes,
+    get_hypercube_nodes,
+    get_node_info,
+    random_walk,
+    weighted_bfs_path,
+)
+from system_prompts import TOPOLOGY_AGENT_PROMPT
 
-When analyzing the graph:
-1. First understand what the user wants to know
-2. Select appropriate tools to gather the necessary information
-3. Analyze the results and provide insights
-4. Explain your reasoning and any patterns you discover
-5. If relevant, suggest additional analyses that might be interesting"""
-        )
-    
-    def analyze(self, prompt: str) -> None:
-        """Analyze the graph based on the user's prompt.
-        
-        Args:
-            prompt: The analysis prompt to send to the agent
-        """
-        self.agent.print_response(prompt)
 
-# Example usage:
-if __name__ == "__main__":
-    # Initialize the agent
-    agent = TopologyAgent("node_clusters_with_weights.json")
-    # Example analyses
-    agent.analyze("Hello, how are you?")
-    agent.analyze("What information can you tell me about node cube79_cluster3?")
-    agent.analyze("Find all nodes connected to cube79_cluster3")
-    agent.analyze("Analyze the community structure of the graph")
-    agent.analyze("Find the shortest path between cube79_cluster3 and cube52_cluster3")
+def create_agent(model_name: str = "llama3.1:8b") -> Agent:
+    """Create and return a configured topology analysis agent.
+
+    Args:
+        model_name: Ollama model name to use (default: llama3.1:8b).
+                    Any model available in your local Ollama installation works.
+                    Recommended models with good tool calling: llama3.1, qwen2.5, deepseek-r1.
+
+    Returns:
+        A PydanticAI Agent with all 16 graph tools registered.
+    """
+    model = OpenAIModel(
+        model_name,
+        provider=OpenAIProvider(
+            base_url="http://localhost:11434/v1",
+            api_key="ollama",  # Required field, ignored by Ollama
+        ),
+    )
+
+    agent: Agent[Deps, str] = Agent(
+        model,
+        deps_type=Deps,
+        output_type=str,
+        system_prompt=TOPOLOGY_AGENT_PROMPT,
+        retries=3,
+    )
+
+    # Register all 16 tools
+    agent.tool(get_node_info)
+    agent.tool(get_connected_nodes)
+    agent.tool(get_hypercube_nodes)
+    agent.tool(find_nodes_with_token)
+    agent.tool(bfs_path)
+    agent.tool(find_all_paths)
+    agent.tool(analyze_components)
+    agent.tool(random_walk)
+    agent.tool(analyze_network)
+    agent.tool(detect_communities)
+    agent.tool(compute_node_centrality)
+    agent.tool(extract_subgraph)
+    agent.tool(analyze_token_patterns)
+    agent.tool(analyze_paths)
+    agent.tool(compute_graph_statistics)
+    agent.tool(weighted_bfs_path)
+
+    return agent
