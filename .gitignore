@@ -20,6 +20,7 @@ var/
 .installed.cfg
 *.egg
 venv/
+.venv/
 
 # Large files and cache
 maxmin_samples.npz
