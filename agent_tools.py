@@ -327,3 +327,197 @@ def analyze_token_patterns(ctx: RunContext[Deps]) -> str:
         ],
     }
     return json.dumps(summary)
+
+
+# ---------------------------------------------------------------------------
+# Value system analysis
+# ---------------------------------------------------------------------------
+
+def analyze_value_neighborhood(
+    ctx: RunContext[Deps],
+    token: Annotated[str, Field(description="Value token to explore, e.g. 'justice' or ' care'")],
+    depth: Annotated[int, Field(description="BFS depth (1-3)", ge=1, le=3)] = 2,
+) -> str:
+    """Find the semantic neighborhood of a value token in the graph.
+
+    Explores outward from nodes containing the token up to ``depth`` hops via BFS.
+    Returns tokens grouped by hop distance and community context.
+    """
+    from collections import deque
+
+    graph = ctx.deps.graph
+    nodes = graph.find_nodes_with_token(token)
+    if not nodes:
+        return json.dumps({"token": token, "not_found": True})
+
+    seed_ids = [n.id for n in nodes]
+    neighborhood: dict[int, set[str]] = {d: set() for d in range(1, depth + 1)}
+    visited: set[str] = set(seed_ids)
+    total_visited = len(visited)
+
+    # BFS from all seed nodes simultaneously
+    queue: deque[tuple[str, int]] = deque()
+    for sid in seed_ids:
+        queue.append((sid, 0))
+
+    while queue:
+        current_id, dist = queue.popleft()
+        if dist >= depth:
+            continue
+        node = graph.get_node(current_id)
+        if node is None:
+            continue
+        for neighbor_id in node.connected_nodes:
+            if neighbor_id not in visited:
+                visited.add(neighbor_id)
+                total_visited += 1
+                next_dist = dist + 1
+                neighbor_node = graph.get_node(neighbor_id)
+                if neighbor_node:
+                    neighborhood[next_dist].update(neighbor_node.tokens[:5])
+                    queue.append((neighbor_id, next_dist))
+
+    result = {
+        "token": token,
+        "seed_nodes": seed_ids,
+        "neighborhood": {str(d): sorted(tokens) for d, tokens in neighborhood.items()},
+        "total_nodes_visited": total_visited,
+    }
+    return json.dumps(result)
+
+
+def compare_value_poles(
+    ctx: RunContext[Deps],
+    positive_tokens: Annotated[List[str], Field(description="List of positive pole tokens")],
+    negative_tokens: Annotated[List[str], Field(description="List of negative pole tokens")],
+) -> str:
+    """Measure graph distance and community overlap between two value poles.
+
+    Returns mean/min/max BFS distances between all (pos_node, neg_node) pairs
+    (capped at 25 pairs). Also reports community overlap ratio.
+    High distance + low overlap = poles are well separated.
+    """
+    graph = ctx.deps.graph
+
+    pos_nodes = []
+    for t in positive_tokens:
+        pos_nodes.extend(graph.find_nodes_with_token(t))
+    neg_nodes = []
+    for t in negative_tokens:
+        neg_nodes.extend(graph.find_nodes_with_token(t))
+
+    # Deduplicate by node id
+    pos_ids = list({n.id for n in pos_nodes})[:5]
+    neg_ids = list({n.id for n in neg_nodes})[:5]
+
+    if not pos_ids or not neg_ids:
+        return json.dumps({
+            "error": "Could not resolve tokens to graph nodes",
+            "positive_found": len(pos_ids),
+            "negative_found": len(neg_ids),
+        })
+
+    # BFS distances for all pairs (capped at 25)
+    distances = []
+    for pid in pos_ids:
+        for nid in neg_ids:
+            path = graph.bfs_path(pid, nid)
+            if path:
+                distances.append(len(path) - 1)
+
+    # Community overlap
+    community_result = graph.detect_communities()
+    node_to_community: dict[str, int] = {}
+    for comm_idx, comm_set in enumerate(community_result["communities"]):
+        for node_id in comm_set:
+            node_to_community[node_id] = comm_idx
+
+    pos_communities = {node_to_community.get(pid) for pid in pos_ids} - {None}
+    neg_communities = {node_to_community.get(nid) for nid in neg_ids} - {None}
+    all_communities = pos_communities | neg_communities
+    overlap = pos_communities & neg_communities
+    overlap_ratio = len(overlap) / len(all_communities) if all_communities else 0.0
+
+    result = {
+        "positive_nodes": len(pos_ids),
+        "negative_nodes": len(neg_ids),
+        "distances": {
+            "pairs_measured": len(distances),
+            "mean": round(sum(distances) / len(distances), 2) if distances else None,
+            "min": min(distances) if distances else None,
+            "max": max(distances) if distances else None,
+        },
+        "community_overlap_ratio": round(overlap_ratio, 4),
+    }
+    return json.dumps(result)
+
+
+def find_value_bridges(
+    ctx: RunContext[Deps],
+    value_tokens_a: Annotated[List[str], Field(description="Tokens for value cluster A")],
+    value_tokens_b: Annotated[List[str], Field(description="Tokens for value cluster B")],
+) -> str:
+    """Identify topological bridge nodes between two value clusters.
+
+    Finds BFS paths between clusters A and B, counts intermediate node frequency.
+    Returns top 10 bridge nodes with tokens and bridge scores.
+    """
+    from collections import Counter
+
+    graph = ctx.deps.graph
+
+    nodes_a = []
+    for t in value_tokens_a:
+        nodes_a.extend(graph.find_nodes_with_token(t))
+    nodes_b = []
+    for t in value_tokens_b:
+        nodes_b.extend(graph.find_nodes_with_token(t))
+
+    a_ids = list({n.id for n in nodes_a})[:3]
+    b_ids = list({n.id for n in nodes_b})[:3]
+
+    if not a_ids or not b_ids:
+        return json.dumps({
+            "error": "Could not resolve tokens to graph nodes",
+            "cluster_a_found": len(a_ids),
+            "cluster_b_found": len(b_ids),
+        })
+
+    intermediate_counts: Counter = Counter()
+    total_paths = 0
+
+    for aid in a_ids:
+        for bid in b_ids:
+            path = graph.bfs_path(aid, bid)
+            if path and len(path) > 2:
+                total_paths += 1
+                # Intermediate nodes (exclude start and end)
+                for node in path[1:-1]:
+                    intermediate_counts[node.id] += 1
+
+    if not total_paths:
+        return json.dumps({
+            "cluster_a_nodes": a_ids,
+            "cluster_b_nodes": b_ids,
+            "bridges": [],
+            "total_paths": 0,
+        })
+
+    top_bridges = intermediate_counts.most_common(10)
+    bridges = []
+    for node_id, count in top_bridges:
+        node = graph.get_node(node_id)
+        bridges.append({
+            "node_id": node_id,
+            "tokens": node.tokens[:5] if node else [],
+            "count": count,
+            "bridge_score": round(count / total_paths, 4),
+        })
+
+    result = {
+        "cluster_a_nodes": a_ids,
+        "cluster_b_nodes": b_ids,
+        "total_paths": total_paths,
+        "bridges": bridges,
+    }
+    return json.dumps(result)

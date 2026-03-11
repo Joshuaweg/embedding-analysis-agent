@@ -3,7 +3,7 @@
 No real LLM calls are made. TestModel is used for run tests.
 These tests verify that the agent is correctly assembled:
   - create_agent() returns a PydanticAI Agent
-  - All 16 tools are registered
+  - All 19 tools are registered
   - Deps type is correctly set
   - Agent completes a run with TestModel
 """
@@ -29,6 +29,9 @@ EXPECTED_TOOLS = {
     "analyze_paths",
     "compute_graph_statistics",
     "weighted_bfs_path",
+    "analyze_value_neighborhood",
+    "compare_value_poles",
+    "find_value_bridges",
 }
 
 
@@ -38,7 +41,7 @@ def test_create_agent_returns_pydantic_ai_agent():
     assert isinstance(agent, Agent)
 
 
-def test_agent_has_all_16_tools_registered():
+def test_agent_has_all_19_tools_registered():
     from topology_agent import create_agent
     agent = create_agent()
     registered = set(agent._function_toolset.tools.keys())

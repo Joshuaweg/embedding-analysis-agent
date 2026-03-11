@@ -14,13 +14,16 @@ from agent_tools import (
     analyze_network,
     analyze_paths,
     analyze_token_patterns,
+    analyze_value_neighborhood,
     bfs_path,
+    compare_value_poles,
     compute_graph_statistics,
     compute_node_centrality,
     detect_communities,
     extract_subgraph,
     find_all_paths,
     find_nodes_with_token,
+    find_value_bridges,
     get_connected_nodes,
     get_hypercube_nodes,
     get_node_info,
@@ -39,7 +42,7 @@ def create_agent(model_name: str = "llama3.1:8b") -> Agent:
                     Recommended models with good tool calling: llama3.1, qwen2.5, deepseek-r1.
 
     Returns:
-        A PydanticAI Agent with all 16 graph tools registered.
+        A PydanticAI Agent with all 19 graph tools registered.
     """
     model = OpenAIModel(
         model_name,
@@ -74,5 +77,10 @@ def create_agent(model_name: str = "llama3.1:8b") -> Agent:
     agent.tool(analyze_paths)
     agent.tool(compute_graph_statistics)
     agent.tool(weighted_bfs_path)
+
+    # Value system analysis tools
+    agent.tool(analyze_value_neighborhood)
+    agent.tool(compare_value_poles)
+    agent.tool(find_value_bridges)
 
     return agent
