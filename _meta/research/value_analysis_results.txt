@@ -1,0 +1,34 @@
+Value Analysis Results
+============================================================
+Date: 2026-03-11T01:29:32.466127
+Graph: 9020 nodes, 36331 edges
+Fast mode: True
+
+Experiment 1: Moral Pole Separation
+----------------------------------------
+  care_harm: separation_ratio=0.915, null_baseline=12.67
+  fairness_cheating: separation_ratio=1.897, null_baseline=10.0
+  loyalty_betrayal: separation_ratio=3.111, null_baseline=12.14
+  authority_subversion: separation_ratio=8.0, null_baseline=11.25
+  purity_degradation: separation_ratio=2.167, null_baseline=9.5
+
+Experiment 2: Community Coherence
+----------------------------------------
+  care_harm.positive: cohesion=0.2, pct_dominant=0.3333
+  care_harm.negative: cohesion=0.25, pct_dominant=0.5667
+  fairness_cheating.positive: cohesion=0.1667, pct_dominant=0.4583
+  fairness_cheating.negative: cohesion=0.3333, pct_dominant=0.6
+  loyalty_betrayal.positive: cohesion=0.3333, pct_dominant=0.7778
+  loyalty_betrayal.negative: cohesion=1.0, pct_dominant=1.0
+  authority_subversion.positive: cohesion=0.25, pct_dominant=0.3684
+  authority_subversion.negative: cohesion=0.3333, pct_dominant=0.625
+  purity_degradation.positive: cohesion=0.25, pct_dominant=0.375
+  purity_degradation.negative: cohesion=1.0, pct_dominant=1.0
+
+Experiment 3: WEAT
+----------------------------------------
+  skipped: --skip-embeddings flag
+
+Experiment 4: Value Axis Projection
+----------------------------------------
+  skipped: --skip-embeddings flag

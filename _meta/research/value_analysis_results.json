@@ -1,0 +1,154 @@
+{
+  "metadata": {
+    "graph_nodes": 9020,
+    "graph_edges": 36331,
+    "run_date": "2026-03-11T01:29:32.466127",
+    "fast_mode": true
+  },
+  "experiment_1_pole_separation": [
+    {
+      "foundation": "care_harm",
+      "positive_nodes": 3,
+      "negative_nodes": 3,
+      "mean_intra_positive": 6.33,
+      "mean_intra_negative": 13.33,
+      "mean_inter_pole": 9.0,
+      "separation_ratio": 0.915,
+      "null_baseline_mean": 12.67
+    },
+    {
+      "foundation": "fairness_cheating",
+      "positive_nodes": 3,
+      "negative_nodes": 3,
+      "mean_intra_positive": 9.0,
+      "mean_intra_negative": 4.0,
+      "mean_inter_pole": 12.33,
+      "separation_ratio": 1.897,
+      "null_baseline_mean": 10.0
+    },
+    {
+      "foundation": "loyalty_betrayal",
+      "positive_nodes": 3,
+      "negative_nodes": 3,
+      "mean_intra_positive": 1.67,
+      "mean_intra_negative": 1.33,
+      "mean_inter_pole": 4.67,
+      "separation_ratio": 3.111,
+      "null_baseline_mean": 12.14
+    },
+    {
+      "foundation": "authority_subversion",
+      "positive_nodes": 3,
+      "negative_nodes": 3,
+      "mean_intra_positive": 2.0,
+      "mean_intra_negative": 2.0,
+      "mean_inter_pole": 16.0,
+      "separation_ratio": 8.0,
+      "null_baseline_mean": 11.25
+    },
+    {
+      "foundation": "purity_degradation",
+      "positive_nodes": 3,
+      "negative_nodes": 3,
+      "mean_intra_positive": 10.0,
+      "mean_intra_negative": 2.0,
+      "mean_inter_pole": 13.0,
+      "separation_ratio": 2.167,
+      "null_baseline_mean": 9.5
+    }
+  ],
+  "experiment_2_community_coherence": [
+    {
+      "foundation": "care_harm",
+      "pole": "positive",
+      "num_nodes": 24,
+      "unique_communities": 5,
+      "cohesion": 0.2,
+      "pct_dominant_community": 0.3333,
+      "null_baseline_cohesion": 0.0665
+    },
+    {
+      "foundation": "care_harm",
+      "pole": "negative",
+      "num_nodes": 30,
+      "unique_communities": 4,
+      "cohesion": 0.25,
+      "pct_dominant_community": 0.5667,
+      "null_baseline_cohesion": 0.056
+    },
+    {
+      "foundation": "fairness_cheating",
+      "pole": "positive",
+      "num_nodes": 24,
+      "unique_communities": 6,
+      "cohesion": 0.1667,
+      "pct_dominant_community": 0.4583,
+      "null_baseline_cohesion": 0.0633
+    },
+    {
+      "foundation": "fairness_cheating",
+      "pole": "negative",
+      "num_nodes": 20,
+      "unique_communities": 3,
+      "cohesion": 0.3333,
+      "pct_dominant_community": 0.6,
+      "null_baseline_cohesion": 0.0736
+    },
+    {
+      "foundation": "loyalty_betrayal",
+      "pole": "positive",
+      "num_nodes": 9,
+      "unique_communities": 3,
+      "cohesion": 0.3333,
+      "pct_dominant_community": 0.7778,
+      "null_baseline_cohesion": 0.134
+    },
+    {
+      "foundation": "loyalty_betrayal",
+      "pole": "negative",
+      "num_nodes": 8,
+      "unique_communities": 1,
+      "cohesion": 1.0,
+      "pct_dominant_community": 1.0,
+      "null_baseline_cohesion": 0.1527
+    },
+    {
+      "foundation": "authority_subversion",
+      "pole": "positive",
+      "num_nodes": 19,
+      "unique_communities": 4,
+      "cohesion": 0.25,
+      "pct_dominant_community": 0.3684,
+      "null_baseline_cohesion": 0.0799
+    },
+    {
+      "foundation": "authority_subversion",
+      "pole": "negative",
+      "num_nodes": 8,
+      "unique_communities": 3,
+      "cohesion": 0.3333,
+      "pct_dominant_community": 0.625,
+      "null_baseline_cohesion": 0.1546
+    },
+    {
+      "foundation": "purity_degradation",
+      "pole": "positive",
+      "num_nodes": 16,
+      "unique_communities": 4,
+      "cohesion": 0.25,
+      "pct_dominant_community": 0.375,
+      "null_baseline_cohesion": 0.08
+    },
+    {
+      "foundation": "purity_degradation",
+      "pole": "negative",
+      "num_nodes": 10,
+      "unique_communities": 1,
+      "cohesion": 1.0,
+      "pct_dominant_community": 1.0,
+      "null_baseline_cohesion": 0.1223
+    }
+  ],
+  "experiment_3_weat": "skipped: --skip-embeddings flag",
+  "experiment_4_value_projection": "skipped: --skip-embeddings flag"
+}

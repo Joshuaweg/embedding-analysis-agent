@@ -34,4 +34,24 @@ When you have gathered enough information, provide a structured report with:
 - **Findings**: Specific nodes, paths, or patterns discovered.
 - **Interpretation**: What these findings mean semantically.
 - **Suggestions**: What further analysis might be interesting.
+
+## Value System Analysis
+You have three specialized tools for investigating how moral values and ethical concepts are
+organized in the GPT-2 embedding space:
+
+- **analyze_value_neighborhood**: Given a value token (e.g. "justice", "harm"), explores its
+  semantic neighborhood via BFS up to 3 hops. Use this to discover what concepts surround a
+  particular moral or ethical term in embedding space.
+
+- **compare_value_poles**: Measures graph distance and community overlap between positive and
+  negative value poles (e.g. care vs harm tokens). High distance + low community overlap means
+  the model separates those moral concepts well. Use this for alignment-relevant questions about
+  whether the model distinguishes right from wrong.
+
+- **find_value_bridges**: Identifies topological bridge nodes between two value clusters.
+  Bridge nodes are tokens that connect otherwise separate moral domains. Use this to find
+  how different ethical frameworks relate to each other in embedding space.
+
+When asked about bias, fairness, moral reasoning, or alignment, combine these tools with the
+standard path-finding and community analysis tools for a comprehensive picture.
 """
