@@ -56,26 +56,21 @@ def load_graph(graph_path: str) -> TokenGraph:
 # ---------------------------------------------------------------------------
 
 def load_gpt2_embeddings() -> "np.ndarray | None":
-    """Load GPT-2 token embedding matrix (50257 x 768). Returns None if unavailable."""
+    """Load GPT-2 token embedding matrix (50257 x 768). Returns None if unavailable.
+
+    Matches the approach used in embedding.py: GPT2Model.from_pretrained + PyTorch.
+    """
     try:
-        from safetensors import safe_open
-        from huggingface_hub import hf_hub_download
-        path = hf_hub_download("gpt2", "model.safetensors")
-        with safe_open(path, framework="numpy") as f:
-            return f.get_tensor("wte.weight")
-    except Exception:
-        pass
-    try:
-        cache = os.path.expanduser("~/.cache/huggingface/hub")
-        for root, dirs, files in os.walk(cache):
-            for fname in files:
-                if fname == "model.safetensors" and "gpt2" in root:
-                    from safetensors import safe_open
-                    with safe_open(os.path.join(root, fname), framework="numpy") as sf:
-                        return sf.get_tensor("wte.weight")
-    except Exception:
-        pass
-    return None
+        import torch
+        from transformers import GPT2Model
+        print("Loading GPT-2 model weights...")
+        model = GPT2Model.from_pretrained("gpt2")
+        matrix = model.get_input_embeddings().weight.detach().numpy()
+        print(f"Loaded embedding matrix: {matrix.shape}")
+        return matrix
+    except Exception as e:
+        print(f"Could not load GPT-2 embeddings: {e}")
+        return None
 
 
 def cosine_sim(a: np.ndarray, b: np.ndarray) -> float:
